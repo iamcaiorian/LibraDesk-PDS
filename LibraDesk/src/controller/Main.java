@@ -5,13 +5,14 @@
 package controller; 
 
 
-import conexaoDAO.Conexao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.sql.Connection;
+
+import conexaoDataBase.Conexao;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 

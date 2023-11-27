@@ -4,7 +4,6 @@
  */
 package controller;
 
-import conexaoDAO.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
+
+import conexaoDataBase.Conexao;
 import model.LivroModel;
 
 /**
@@ -37,7 +38,7 @@ public class EditarLivroController {
         this.acervoController = acervoController;
     }
     
-    public void preencherCampos(LivroModel livro){
+    public void preencherCampos(Livro livro){
         tituloLivro.setText(livro.getTitulo());
         autorLivro.setText(livro.getAutor());
         localizacaoLivro.setText(livro.getLocalBiblioteca());    
@@ -47,7 +48,7 @@ public class EditarLivroController {
     
     @FXML
     public void btEditarLivro(ActionEvent e){
-        LivroModel livro = new LivroModel(tituloLivro.getText(), 
+        Livro livro = new Livro(tituloLivro.getText(), 
                 idLivro, 
                 localizacaoLivro.getText(), 
                 Integer.parseInt(numExemplaresLivro.getText()), 
@@ -64,7 +65,7 @@ public class EditarLivroController {
         Main.changeScreen("acervo");
     }
     
-    public void EditarLivro(LivroModel livro){
+    public void EditarLivro(Livro livro){
            
         try{
             Conexao conSing = Conexao.getInstancy();

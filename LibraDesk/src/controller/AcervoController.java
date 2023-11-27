@@ -6,12 +6,12 @@ package controller;
 
 import java.util.*;
 import java.sql.*;
-import conexaoDAO.Conexao;
 import java.net.URL;
 import java.sql.Connection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.swing.JOptionPane;
+import conexaoDataBase.Conexao;
 import javafx.scene.control.TextField;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;

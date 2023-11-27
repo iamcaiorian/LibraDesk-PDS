@@ -5,7 +5,6 @@
 package controller;
 
 
-import conexaoDAO.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
+
+import conexaoDataBase.Conexao;
 import model.LeitorModel;
 import model.PessoaModel;
 

@@ -4,7 +4,6 @@
  */
 package controller;
 
-import conexaoDAO.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
+
+import conexaoDataBase.Conexao;
 import model.LivroModel;
 
 /**
@@ -38,7 +39,7 @@ public class NovoLivroController {
     @FXML
     public void BtCadastrar(ActionEvent e){
         //public LivroModel(String titulo, int id, String localBiblioteca, int numeroExemplares, String autor)
-        LivroModel livro = new LivroModel(tituloLivro.getText(), 0, localizacaoLivro.getText(), Integer.parseInt(numExemplaresLivro.getText()), autorLivro.getText());
+        Livro livro = new Livro(tituloLivro.getText(), 0, localizacaoLivro.getText(), Integer.parseInt(numExemplaresLivro.getText()), autorLivro.getText());
         adicionarLivro(livro);
         Main.changeScreen("acervo");
     }
@@ -48,7 +49,7 @@ public class NovoLivroController {
         Main.changeScreen("acervo");
     }
     
-    public void adicionarLivro(LivroModel livro) {
+    public void adicionarLivro(Livro livro) {
         
         try {     
             Conexao conSing = Conexao.getInstancy();

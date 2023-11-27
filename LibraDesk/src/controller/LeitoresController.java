@@ -5,7 +5,7 @@
 package controller;
 
 import javafx.collections.ObservableList;
-import conexaoDAO.Conexao;
+
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +29,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javax.swing.JOptionPane;
+
+import conexaoDataBase.Conexao;
 
 /**
  * FXML Controller class
