@@ -1,5 +1,5 @@
-# LibraDesk-PDS
-Sistema de gerenciamento de empréstimo de livros para a biblioteca pública de Quixadá.
+# LibraDesk-PIES
+Sistema de gerenciamento de empréstimo de livros para a biblioteca pública de Quixadá
 
 ## Prototipação
 
@@ -51,3 +51,4 @@ O projeto LibraDesk não incluirá:
     RN007 - Confirmação de empréstimo: O usuário deve receber uma confirmação do empréstimo realizado.
     RN008 - Registro de datas: A data de devolução deve ser registrada e comparada à data esperada para cálculo de multas.
     RN009 - Calcular multa: Caso a devolução seja feita após a data esperada, o sistema deve calcular a multa corretamente.
+
