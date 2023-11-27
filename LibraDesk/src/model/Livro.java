@@ -8,7 +8,7 @@ package model;
  *
  * @author gabri
  */
-public class LivroModel {
+public class Livro {
     private String titulo;
     private int id;
     private String localBiblioteca;
@@ -16,7 +16,7 @@ public class LivroModel {
     private String autor;
 
     // Construtor
-    public LivroModel(String titulo, int id, String localBiblioteca, int numeroExemplares, String autor) {
+    public Livro(String titulo, int id, String localBiblioteca, int numeroExemplares, String autor) {
         this.titulo = titulo;
         this.id = id;
         this.localBiblioteca = localBiblioteca;
@@ -24,7 +24,7 @@ public class LivroModel {
         this.autor = autor;
     }
 
-    public LivroModel() {
+    public Livro() {
 
     }
 

@@ -13,7 +13,7 @@ import java.util.Date;
  */
 import java.util.Date;
 
-public class EmprestimoModel {
+public class Emprestimo {
     private Date dataEmprestimo;
     private Date dataPrevDev;
     private Date dataRealDev;
@@ -23,7 +23,7 @@ public class EmprestimoModel {
     private boolean status;
 
     // Construtor
-    public EmprestimoModel(Date dataEmprestimo, Date dataPrevDev, Date dataRealDev, double multa, String cpfLeitor,
+    public Emprestimo(Date dataEmprestimo, Date dataPrevDev, Date dataRealDev, double multa, String cpfLeitor,
             int idLivro, boolean status) {
         this.dataEmprestimo = dataEmprestimo;
         this.dataPrevDev = dataPrevDev;
