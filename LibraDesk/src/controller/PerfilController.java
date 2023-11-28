@@ -21,7 +21,7 @@ import javafx.stage.StageStyle;
 public class PerfilController{
     
     @FXML
-    protected void btAcervo(ActionEvent e){
+    protected void btVoltar(ActionEvent e){
         Main.changeScreen("acervo");
     }
 
@@ -38,6 +38,11 @@ public class PerfilController{
      @FXML
     protected void btEditar(ActionEvent e){
         openEditarPopup();
+    }
+
+    @FXML
+    protected void btFuncionario(ActionEvent e){
+        Main.changeScreen("funcionario");
     }
 
     private static void openExcluirPopup() {
