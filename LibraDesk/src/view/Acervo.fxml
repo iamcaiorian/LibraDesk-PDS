@@ -35,7 +35,7 @@
                   <Insets />
                </HBox.margin>
             </HBox>
-            <Button id="menuButton" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="54.0" prefWidth="182.0" stylesheets="@style.css" text="Funcionários" HBox.hgrow="ALWAYS">
+            <Button id="menuButton" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#btFuncionario" prefHeight="54.0" prefWidth="182.0" stylesheets="@style.css" text="Funcionários" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="24.0" />
                </font>
@@ -161,7 +161,10 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="18.0" layoutY="340.0" prefHeight="340.0" prefWidth="1236.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="340.0">
          <children>
-            <TableView fx:id="livrosTableView" prefHeight="340.0" prefWidth="1235.0" style="-fx-background-color: #FFFFFF;" />
+            <TableView fx:id="livrosTableView" prefHeight="340.0" prefWidth="1235.0" style="-fx-background-color: #FFFFFF;">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy></TableView>
          </children>
       </HBox>
    </children>

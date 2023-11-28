@@ -9,7 +9,7 @@ package model;
  *
  * @author gabri
  */
-public class Leitor extends Pessoa {
+public class LeitorModel extends PessoaModel {
     private String telefoneUm;
     private String telefoneDois;
     private String bairro;
@@ -18,7 +18,7 @@ public class Leitor extends Pessoa {
     private int numero;
 
     // Construtor
-    public Leitor(String pnome, String sobrenome, String cpf, String telefoneUm, String telefoneDois,
+    public LeitorModel(String pnome, String sobrenome, String cpf, String telefoneUm, String telefoneDois,
             String bairro, String rua, String cidade, int numero) {
         super(pnome, sobrenome, cpf);
         this.telefoneUm = telefoneUm;
