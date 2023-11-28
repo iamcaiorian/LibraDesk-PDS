@@ -4,6 +4,7 @@
  */
 package controller;
 
+import conexaoDAO.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,8 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
-import conexaoDataBase.Conexao;
+
+
 import model.LivroModel;
 
 /**
@@ -34,14 +38,23 @@ public class NovoLivroController {
     @FXML
     private TextField numExemplaresLivro;
     
+    AcervoController acervo = new AcervoController();
+    public void setAcervoController(AcervoController acervo) {
+        this.acervo = acervo;
+    }
     
     
     @FXML
     public void BtCadastrar(ActionEvent e){
         //public LivroModel(String titulo, int id, String localBiblioteca, int numeroExemplares, String autor)
-        Livro livro = new Livro(tituloLivro.getText(), 0, localizacaoLivro.getText(), Integer.parseInt(numExemplaresLivro.getText()), autorLivro.getText());
+        LivroModel livro = new LivroModel(tituloLivro.getText(), 0, localizacaoLivro.getText(), Integer.parseInt(numExemplaresLivro.getText()), autorLivro.getText());
         adicionarLivro(livro);
         Main.changeScreen("acervo");
+
+        acervo.atualizarTabela();
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.close();
+        
     }
     
     @FXML
@@ -49,7 +62,7 @@ public class NovoLivroController {
         Main.changeScreen("acervo");
     }
     
-    public void adicionarLivro(Livro livro) {
+    public void adicionarLivro(LivroModel livro) {
         
         try {     
             Conexao conSing = Conexao.getInstancy();

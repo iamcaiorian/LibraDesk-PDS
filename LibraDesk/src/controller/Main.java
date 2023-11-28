@@ -5,14 +5,13 @@
 package controller; 
 
 
+import conexaoDAO.Conexao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.sql.Connection;
-
-import conexaoDataBase.Conexao;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
@@ -28,6 +27,7 @@ public class Main extends Application{
     private static Scene NovoLivro;
     private static Scene CadastrarUsuario;
     private static Scene Perfil;
+    private static Scene Funcionarios;
     
     @Override
     public void start(Stage primaryStage)throws Exception{
@@ -42,6 +42,7 @@ public class Main extends Application{
         Parent xmlEm_Atraso = FXMLLoader.load(getClass().getResource("../view/Em_Atraso.fxml"));
         Parent xmlCadastrarUsuario = FXMLLoader.load(getClass().getResource("../view/CadastrarUsuario.fxml"));
         Parent xmlPerfil = FXMLLoader.load(getClass().getResource("../view/Perfil.fxml"));
+        Parent xmlFuncionarios = FXMLLoader.load(getClass().getResource("../view/Funcionarios.fxml"));
 
         //criando as cenas
         Login = new Scene(xmlLogin, 1280,720);
@@ -64,6 +65,9 @@ public class Main extends Application{
 
         Perfil = new Scene(xmlPerfil, 1280,720);
         Perfil.getStylesheets().add(getClass().getResource("../libradesk/style.css").toExternalForm());
+
+        Funcionarios = new Scene(xmlFuncionarios, 1280,720);
+        Funcionarios.getStylesheets().add(getClass().getResource("../libradesk/style.css").toExternalForm());
 
         //definindo a cena inicial
         primaryStage.setScene(Login);
@@ -94,29 +98,11 @@ public class Main extends Application{
             case "perfil":
                 stage.setScene(Perfil);
                 break;
+            case "funcionario":
+                stage.setScene(Funcionarios);
+                break;
         }
     }
-    
-    // private static void openNovoLivroPopup() {
-    //     try {
-    //         // Carregando o arquivo FXML da tela NovoLivro
-    //         FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/NovoLivro.fxml"));
-    //         Parent root = loader.load();
-
-    //         // Criando um novo palco (Stage) para a tela NovoLivro
-    //         Stage novoLivroStage = new Stage();
-    //         novoLivroStage.setTitle("Novo Livro");
-    //         novoLivroStage.initStyle(StageStyle.UTILITY);
-    //         novoLivroStage.initModality(Modality.APPLICATION_MODAL);
-    //         novoLivroStage.setScene(new Scene(root, 992, 614));
-
-    //         // Exibindo o palco
-    //         novoLivroStage.showAndWait();
-    //     } catch (Exception e) {
-    //         // Tratamento de exceção (substitua por um tratamento adequado)
-    //         e.printStackTrace();
-    // }
-    // }
     
     public static void main(String[] args ) {
         launch(args);

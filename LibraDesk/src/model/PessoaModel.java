@@ -8,13 +8,13 @@ package model;
  *
  * @author gabri
  */
-public class Pessoa {
+public class PessoaModel {
     private String pnome;
     private String sobrenome;
     private String cpf;
 
     // Construtor
-    public Pessoa(String pnome, String sobrenome, String cpf) {
+    public PessoaModel(String pnome, String sobrenome, String cpf) {
         this.pnome = pnome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
