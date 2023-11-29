@@ -37,6 +37,9 @@ import javax.swing.JOptionPane;
 import model.LivroModel;
 import model.EmprestimoModel;
 import model.LeitorModel;
+import strategy.CalculadoraMulta;
+import strategy.MultaEspecial;
+import strategy.MultaPadrao;
 
 /**
  * FXML Controller class
@@ -276,10 +279,14 @@ public class EmprestimosController {
                 
                 
                 long diferencaEmDias = calcularDiferencaDias(dataPrevDevolucaoLocalDate, dataAtual);
-                double multa = diferencaEmDias * 0.50;
-                
-                if(multa < 0){
-                    multa = 0;
+
+                double multa = 0;
+                if(diferencaEmDias <= 30) {
+                    MultaPadrao multaPadrao = new MultaPadrao();
+                    multa = multaPadrao.calcularMulta(diferencaEmDias);
+                } else {
+                    MultaEspecial multaEspecial = new MultaEspecial();
+                    multa = multaEspecial.calcularMulta(diferencaEmDias);
                 }
 
                 String sql2 = "UPDATE emprestimo SET multa = ? WHERE id_emprestimo = ?";
