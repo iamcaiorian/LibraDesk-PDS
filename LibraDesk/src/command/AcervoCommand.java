@@ -1,7 +1,16 @@
 package command;
 
+import controller.Main;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+
+
 public class AcervoCommand implements Command{
-    public void execute(){
-        System.out.println("AcervoCommand");
+    public void execute() throws Exception{
+        Parent xmlAcervo = FXMLLoader.load(getClass().getResource("../view/Acervo.fxml"));
+        Scene Acervo = new Scene(xmlAcervo, 1280, 720);
+        Acervo.getStylesheets().add(getClass().getResource("../libradesk/style.css").toExternalForm());
+        Main.changeScene(Acervo);
     }
 }
