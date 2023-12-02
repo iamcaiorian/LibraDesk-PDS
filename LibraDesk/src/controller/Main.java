@@ -37,6 +37,8 @@ public class Main extends Application{
         invoker.register("novoUsuario", new CadastrarUsuarioCommand());
         invoker.register("perfil", new PerfilCommand());
         invoker.register("funcionario", new FuncionariosCommand());
+        invoker.register("novoLivro", new NovoLivroCommand());
+        invoker.register("editarLivro", new EditarLivroCommand());
 
         invoker.invoke("login");
         primaryStage.show();

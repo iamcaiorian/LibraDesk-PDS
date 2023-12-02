@@ -83,9 +83,7 @@ public class AcervoDAO implements IDAO{
 
     public void adicionarLivro(LivroModel livro) {
         
-        try {     
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
+        try {    
             
             String sql = "INSERT INTO Livro (titulo, local_biblioteca, num_exemplares, autor) VALUES (?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
@@ -105,8 +103,6 @@ public class AcervoDAO implements IDAO{
     public void EditarLivro(LivroModel livro){
            
         try{
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
             String sql = "UPDATE Livro SET titulo = ?, local_biblioteca = ?, num_exemplares = ?, autor = ? WHERE id = ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             preparedStatement.setString(1, livro.getTitulo());

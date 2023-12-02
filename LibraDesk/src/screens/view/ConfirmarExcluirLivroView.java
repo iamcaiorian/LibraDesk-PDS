@@ -1,10 +1,9 @@
-    /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
-package controller;
+package screens.view;
+
 
 import conexaoDAO.Conexao;
+import controller.AcervoController;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,15 +17,14 @@ import javax.swing.Action;
 import javax.swing.JOptionPane;
 import model.LivroModel;
 
-/**
- * FXML Controller class
- *
- * @author arauj
- */
-public class ConfirmarExcluirController {
-    
+
+public class ConfirmarExcluirLivroView {
     public AcervoController acervoController;
+    int idLivro;
     
+    public void setIdLivro(int idLivro) {
+        this.idLivro = idLivro;
+    }
 
     public void setAcervoController(AcervoController acervoController) {
         this.acervoController = acervoController;
@@ -34,14 +32,13 @@ public class ConfirmarExcluirController {
 
     @FXML
     protected void btConfirmar(ActionEvent e){
-        acervoController.setConfirmacao(true);
+        acervoController.excluirLivro(idLivro);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }
 
     @FXML
     protected void btCancelar(ActionEvent e) {
-        acervoController.setConfirmacao(false);
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }

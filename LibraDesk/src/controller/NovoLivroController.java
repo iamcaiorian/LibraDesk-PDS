@@ -38,12 +38,11 @@ public class NovoLivroController {
     private TextField localizacaoLivro;
     @FXML
     private TextField numExemplaresLivro;
-
-    AcervoController acervo = new AcervoController();
-
-    public void setAcervoController(AcervoController acervo) {
-        this.acervo = acervo;
-    }
+    
+    @FXML
+    public void initialize(){
+            tituloLivro.setText("AAA");
+           }
 
     @FXML
     public void BtCadastrar(ActionEvent e) throws Exception  {
@@ -54,7 +53,6 @@ public class NovoLivroController {
         acervoDAO.adicionarLivro(livro);
         Main.changeScreen("acervo");
 
-        acervo.atualizarTabela();
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
 
