@@ -13,6 +13,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
+
+import DAO.LeitoresDAO;
 import model.LeitorModel;
 import model.PessoaModel;
 /**
@@ -20,6 +22,8 @@ import model.PessoaModel;
  * @author gabri
  */
 public class EditarLeitorController {
+
+    LeitoresDAO leitoresDAO = new LeitoresDAO();
     
     @FXML
     private TextField nomeLeitor;
@@ -37,14 +41,7 @@ public class EditarLeitorController {
     private TextField ruaLeitor;
     @FXML
     private TextField numeroLeitor;
-    
-    private LeitoresController leitoresController;
-
-    public void setLeitoresController(LeitoresController leitoresController) {
-        this.leitoresController = leitoresController;
-    }
-    
-    
+     
     public void preencherCampos(LeitorModel leitor){
         nomeLeitor.setText(leitor.getNomeCompleto());
         cpfLeitor.setText(leitor.getCpf());
@@ -57,7 +54,7 @@ public class EditarLeitorController {
     }
     
     @FXML
-    public void btEditarLeitor(ActionEvent e){
+    public void btEditarLeitor(ActionEvent e) throws Exception {
         String nomeCompleto = nomeLeitor.getText();
         String[] partesNome = nomeCompleto.split(" ", 2);
         String primeiroNome = partesNome[0];
@@ -80,54 +77,21 @@ public class EditarLeitorController {
         );
         
         editarLeitor(leitor);
-        leitoresController.atualizarTabela();  
         Main.changeScreen("leitores");
         
     }
     
     public void editarPessoa(PessoaModel pessoa){
-        try{
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
-            String sql = "UPDATE Pessoa SET Pnome = ?, sobrenome = ? WHERE cpf = ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, pessoa.getPnome());
-            preparedStatement.setString(2, pessoa.getSobrenome());
-            preparedStatement.setString(3, pessoa.getCpf());
-            
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + ex.getMessage());
-        }
+        leitoresDAO.editarPessoa(pessoa);
     }
     
-    public void editarLeitor(LeitorModel leitor){
-        try {
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
-
-            String sql = "UPDATE Leitor SET telefone_um = ?, telefone_dois = ?, bairro = ?, rua = ?, cidade = ?, numero = ? WHERE cpf = ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, leitor.getTelefoneUm());
-            preparedStatement.setString(2, leitor.getTelefoneDois());
-            preparedStatement.setString(3, leitor.getBairro());
-            preparedStatement.setString(4, leitor.getRua());
-            preparedStatement.setString(5, leitor.getCidade());
-            preparedStatement.setInt(6, leitor.getNumero());
-            preparedStatement.setString(7, leitor.getCpf());
-
-            preparedStatement.executeUpdate();
-            Main.changeScreen("leitores");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + ex.getMessage());
-        }
+    public void editarLeitor(LeitorModel leitor) throws Exception {
+        leitoresDAO.editarLeitor(leitor);
     }
     
     
     @FXML
-    public void btCancelarLeitor(ActionEvent e) {
+    public void btCancelarLeitor(ActionEvent e) throws Exception {
         Main.changeScreen("leitores");
     }
 }

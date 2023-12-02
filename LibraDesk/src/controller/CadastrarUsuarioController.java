@@ -50,7 +50,7 @@ public class CadastrarUsuarioController{
 
 
     @FXML
-    protected void btVoltar(ActionEvent e){
+    protected void btVoltar(ActionEvent e) throws Exception{
         Main.changeScreen("login");
     }
 

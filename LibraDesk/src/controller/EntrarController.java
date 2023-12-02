@@ -16,12 +16,12 @@ import javafx.fxml.FXML;
 public class EntrarController{
     
     @FXML
-    protected void btEntrar(ActionEvent e){
+    protected void btEntrar(ActionEvent e) throws Exception {
         Main.changeScreen("acervo");
     }
     
     @FXML
-    protected void btNovoCadastro(ActionEvent e){
+    protected void btNovoCadastro(ActionEvent e)throws Exception {
         Main.changeScreen("novoUsuario");
     
     }

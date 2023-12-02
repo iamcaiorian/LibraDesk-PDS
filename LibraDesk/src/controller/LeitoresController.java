@@ -30,51 +30,55 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javax.swing.JOptionPane;
 
+import DAO.LeitoresDAO;
+
 /**
  * FXML Controller class
  *
  * @author CAIO
  */
-public class LeitoresController{
-    
+public class LeitoresController {
+
+    LeitoresDAO leitoresDAO = new LeitoresDAO();
+
     @FXML
     private TextField txtLeitorPesquisado;
-    
+
     @FXML
     private TableView<LeitorModel> leitoresTableView;
-    
+
     @FXML
-    protected void btAcervo(ActionEvent e){
+    protected void btAcervo(ActionEvent e) throws Exception {
         Main.changeScreen("acervo");
     }
 
     @FXML
-    protected void btEmprestimos(ActionEvent e){
+    protected void btEmprestimos(ActionEvent e) throws Exception {
         Main.changeScreen("emprestimos");
     }
 
     @FXML
-    protected void btEmAtraso(ActionEvent e){
+    protected void btEmAtraso(ActionEvent e) throws Exception {
         Main.changeScreen("em_atraso");
     }
 
     @FXML
-    protected void btNovoLeitor(ActionEvent e){
+    protected void btNovoLeitor(ActionEvent e) throws Exception {
         openNovoLeitorPopup();
     }
 
     @FXML
-    protected void btPerfil(ActionEvent e){
+    protected void btPerfil(ActionEvent e) throws Exception {
         Main.changeScreen("perfil");
     }
 
     @FXML
-    protected void btFuncionario(ActionEvent e){
+    protected void btFuncionario(ActionEvent e) throws Exception {
         Main.changeScreen("funcionario");
     }
 
     @FXML
-    protected void btEditarLeitor(ActionEvent e){
+    protected void btEditarLeitor(ActionEvent e) {
         LeitorModel leitorSelecionado = leitoresTableView.getSelectionModel().getSelectedItem();
 
         try {
@@ -87,7 +91,6 @@ public class LeitoresController{
 
             // Passando o LeitorModel selecionado para o controlador
             controller.preencherCampos(leitorSelecionado);
-            controller.setLeitoresController(this);
 
             // Criando um novo palco (Stage) para a tela de edição
             Stage edicaoLeitorStage = new Stage();
@@ -113,8 +116,6 @@ public class LeitoresController{
             NovoLeitorController controller = loader.getController();
 
             // Passando o LeitorModel selecionado para o controlador
-            controller.setLeitoresController(this);
-            
 
             // Criando um novo palco (Stage) para a tela NovoLivro
             Stage novoLeitorStage = new Stage();
@@ -130,156 +131,71 @@ public class LeitoresController{
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     public void initialize() {
         // Coluna para Nome Completo usando getNomeCompleto
         TableColumn<LeitorModel, String> colNomeCompleto = new TableColumn<>("Nome Completo");
         colNomeCompleto.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getNomeCompleto())
-        );
+                data.getValue().getNomeCompleto()));
 
         // Coluna para CPF
         TableColumn<LeitorModel, String> colCpf = new TableColumn<>("CPF");
         colCpf.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getCpf())
-        );
+                data.getValue().getCpf()));
 
         // Coluna para Telefone Um
         TableColumn<LeitorModel, String> colTelefoneUm = new TableColumn<>("Telefone Um");
         colTelefoneUm.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getTelefoneUm())
-        );
+                data.getValue().getTelefoneUm()));
 
         // Coluna para Telefone Dois
         TableColumn<LeitorModel, String> colTelefoneDois = new TableColumn<>("Telefone Dois");
         colTelefoneDois.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getTelefoneDois())
-        );
+                data.getValue().getTelefoneDois()));
 
         // Coluna para Número
         TableColumn<LeitorModel, Integer> colNumero = new TableColumn<>("Número");
         colNumero.setCellValueFactory(data -> new SimpleIntegerProperty(
-                data.getValue().getNumero()).asObject()
-        );
+                data.getValue().getNumero()).asObject());
 
         // Coluna para Endereço usando getEndereco
         TableColumn<LeitorModel, String> colEndereco = new TableColumn<>("Endereço");
         colEndereco.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getEndereco())
-        );
+                data.getValue().getEndereco()));
 
         // Adicionando as colunas à TableView
-        leitoresTableView.getColumns().addAll(colNomeCompleto, colCpf, colTelefoneUm, colTelefoneDois,colEndereco, colNumero);
+        leitoresTableView.getColumns().addAll(colNomeCompleto, colCpf, colTelefoneUm, colTelefoneDois, colEndereco,
+                colNumero);
 
         // Obtendo a lista de leitores e preenchendo a TableView
         atualizarTabela();
     }
-    
-    public void atualizarTabela(){
-        List<LeitorModel> leitores = pegarLeitores(); 
+
+    public void atualizarTabela() {
+        List<LeitorModel> leitores = leitoresDAO.pegarLeitores();
         preencherTableViewLeitor(leitores);
     }
-    
-    public List<LeitorModel> pegarLeitores(){
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-        List<LeitorModel> listaLeitores = new ArrayList<>();
-        
-        try {
-        String sql = "SELECT * FROM Leitor l JOIN Pessoa p on l.cpf = p.cpf";
-        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-        ResultSet resultSetLeitor = preparedStatement.executeQuery();
-       
 
-            while (resultSetLeitor.next()) {
-                LeitorModel leitor = new LeitorModel(
-                    resultSetLeitor.getString("pnome"),
-                    resultSetLeitor.getString("sobrenome"),
-                    resultSetLeitor.getString("cpf"),
-                    resultSetLeitor.getString("telefone_um"),
-                    resultSetLeitor.getString("telefone_dois"),
-                    resultSetLeitor.getString("bairro"),
-                    resultSetLeitor.getString("rua"),
-                    resultSetLeitor.getString("cidade"),
-                    resultSetLeitor.getInt("numero")
-                );
-                listaLeitores.add(leitor);
-                //JOptionPane.showMessageDialog(null, "cpf: " + leitor.getCidade());
-            }
-        } catch (SQLException excecaoLeitor) {
-            excecaoLeitor.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + excecaoLeitor.getMessage());
-        }
-        
-        return listaLeitores;
-    }
 
-    
+
     @FXML
-    protected void btBuscarLeitorPorNome(ActionEvent event){
+    protected void btBuscarLeitorPorNome(ActionEvent event) {
         String nome = txtLeitorPesquisado.getText();
-        List<LeitorModel> leitores = pesquisarLeitorPorNome(nome);
+        List<LeitorModel> leitores = leitoresDAO.pesquisarLeitorPorNome(nome);
         preencherTableViewLeitor(leitores);
     }
-    
+
     public void preencherTableViewLeitor(List<LeitorModel> leitores) {
         ObservableList<LeitorModel> leitoresObservableList = FXCollections.observableArrayList(leitores);
         leitoresTableView.setItems(leitoresObservableList);
     }
-    
-    public List<LeitorModel> pesquisarLeitorPorNome(String nomeLeitor) {
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-        List<LeitorModel> listaLeitores = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM Leitor l JOIN pessoa p ON l.cpf = p.cpf WHERE (p.pnome || ' ' || p.sobrenome) LIKE ? ";
-
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, "%" + nomeLeitor + "%");
-            ResultSet resultSetLeitor = preparedStatement.executeQuery();
-
-            while (resultSetLeitor.next()) {
-                LeitorModel leitor = new LeitorModel(
-                    resultSetLeitor.getString("pnome"),
-                    resultSetLeitor.getString("sobrenome"),
-                    resultSetLeitor.getString("cpf"),
-                    resultSetLeitor.getString("telefone_um"),
-                    resultSetLeitor.getString("telefone_dois"),
-                    resultSetLeitor.getString("bairro"),
-                    resultSetLeitor.getString("rua"),
-                    resultSetLeitor.getString("cidade"),
-                    resultSetLeitor.getInt("numero")
-                );
-                listaLeitores.add(leitor);
-            }
-        } catch (SQLException excecaoLeitor) {
-            excecaoLeitor.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + excecaoLeitor.getMessage());
-        }
-
-        return listaLeitores;
-    }
 
     @FXML
-    public void btExcluirLeitor(ActionEvent e){
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
+    public void btExcluirLeitor(ActionEvent e) {
         LeitorModel leitorSelecionado = leitoresTableView.getSelectionModel().getSelectedItem();
-        
-        
-        try{
-            String sql = "DELETE FROM Leitor WHERE cpf = ?";            
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, leitorSelecionado.getCpf());          
-            preparedStatement.executeUpdate();
-            atualizarTabela();
-                    
-        }catch (SQLException excecaoLeitor) {
-            excecaoLeitor.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + excecaoLeitor.getMessage());
-        }
+
+        leitoresDAO.excluirLeitor(leitorSelecionado.getCpf());
     }
 
 }

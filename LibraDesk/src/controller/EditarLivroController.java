@@ -8,10 +8,14 @@ import conexaoDAO.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
+
+import DAO.AcervoDAO;
 import model.LivroModel;
 
 /**
@@ -19,7 +23,23 @@ import model.LivroModel;
  * @author gabri
  */
 public class EditarLivroController {
+
+    private static EditarLivroController instance;
+
+    public static EditarLivroController getInstance() {
+        if(instance == null) {
+            instance = new EditarLivroController();
+            return instance;
+        }
+        return instance;
+    }
     
+    private EditarLivroController(){
+        instance = this;
+    }
+
+    AcervoDAO acervoDAO = new AcervoDAO();
+
     @FXML
     private TextField tituloLivro;
     @FXML
@@ -28,60 +48,55 @@ public class EditarLivroController {
     private TextField localizacaoLivro;
     @FXML
     private TextField numExemplaresLivro;
-    
+
     private int idLivro;
+   
+    LivroModel livro;
     
-    private AcervoController acervoController;
-    
-    public void setAcervoController(AcervoController acervoController){
-        this.acervoController = acervoController;
+    public void preencherCampos(LivroModel livro) {
+        
+        String titulo = livro.getTitulo();
+        System.out.print(titulo);
+        
+        this.livro = livro;
+
     }
     
-    public void preencherCampos(LivroModel livro){
-        tituloLivro.setText(livro.getTitulo());
-        autorLivro.setText(livro.getAutor());
-        localizacaoLivro.setText(livro.getLocalBiblioteca());    
-        numExemplaresLivro.setText(String.valueOf(livro.getNumeroExemplares()));
+    @FXML
+    public void initialize(){
+        
+        String titulo = livro.getTitulo();
+        String autor = livro.getAutor();
+        String localizacao = livro.getLocalBiblioteca();
+        String numExemplares = String.valueOf(livro.getNumeroExemplares());
+        
+        tituloLivro.setText(titulo);
+        autorLivro.setText(autor);
+        localizacaoLivro.setText(localizacao);
+        numExemplaresLivro.setText(numExemplares);
         idLivro = livro.getId();
     }
-    
+
     @FXML
-    public void btEditarLivro(ActionEvent e){
-        LivroModel livro = new LivroModel(tituloLivro.getText(), 
-                idLivro, 
-                localizacaoLivro.getText(), 
-                Integer.parseInt(numExemplaresLivro.getText()), 
+    public void btEditarLivro(ActionEvent e) throws Exception {
+        LivroModel livro = new LivroModel(tituloLivro.getText(),
+                idLivro,
+                localizacaoLivro.getText(),
+                Integer.parseInt(numExemplaresLivro.getText()),
                 autorLivro.getText());
-        
+
         EditarLivro(livro);
-        
-        acervoController.atualizarTabela();
+
         Main.changeScreen("acervo");
     }
-    
+
     @FXML
-    public void btCancelar(ActionEvent e){
+    public void btCancelar(ActionEvent e) throws Exception {
         Main.changeScreen("acervo");
     }
-    
-    public void EditarLivro(LivroModel livro){
-           
-        try{
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
-            String sql = "UPDATE Livro SET titulo = ?, local_biblioteca = ?, num_exemplares = ?, autor = ? WHERE id = ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, livro.getTitulo());
-            preparedStatement.setString(2, livro.getLocalBiblioteca());
-            preparedStatement.setInt(3, livro.getNumeroExemplares());
-            preparedStatement.setString(4, livro.getAutor());    
-            preparedStatement.setInt(5, livro.getId());
-            
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + ex.getMessage());
-        }
-    
+
+    public void EditarLivro(LivroModel livro) {
+        acervoDAO.EditarLivro(livro);
+
     }
 }
