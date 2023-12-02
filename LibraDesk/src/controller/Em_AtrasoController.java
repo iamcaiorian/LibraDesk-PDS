@@ -27,6 +27,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
+
+import DAO.EmAtrasoDAO;
 import model.EmprestimoModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,28 +41,30 @@ import java.time.LocalDate;
  */
 public class Em_AtrasoController {
 
+    EmAtrasoDAO emAtrasoDAO = new EmAtrasoDAO();
+
     @FXML
-    protected void btLeitores(ActionEvent e) {
+    protected void btLeitores(ActionEvent e) throws Exception {
         Main.changeScreen("leitores");
     }
 
     @FXML
-    protected void btEmprestimos(ActionEvent e) {
+    protected void btEmprestimos(ActionEvent e) throws Exception {
         Main.changeScreen("emprestimos");
     }
 
     @FXML
-    protected void btAcervo(ActionEvent e) {
+    protected void btAcervo(ActionEvent e) throws Exception {
         Main.changeScreen("acervo");
     }
 
     @FXML
-    protected void btPerfil(ActionEvent e){
+    protected void btPerfil(ActionEvent e) throws Exception {
         Main.changeScreen("perfil");
     }
 
     @FXML
-    protected void btFuncionario(ActionEvent e){
+    protected void btFuncionario(ActionEvent e) throws Exception {
         Main.changeScreen("funcionario");
     }
     
@@ -114,7 +118,7 @@ public class Em_AtrasoController {
     }
 
     public void atualizarTabela() {
-        List<EmprestimoModel> emprestimos = pegarEmprestimos();
+        List<EmprestimoModel> emprestimos = emAtrasoDAO.pegarEmprestimos();
         preencherTableViewEmprestimo(emprestimos);
 
     }
@@ -127,139 +131,15 @@ public class Em_AtrasoController {
     protected void btBuscarEmprestimo(ActionEvent action) {
 
         if (getOpcaoBusca() == "Por leitor") {
-            List<EmprestimoModel> emprestimos = buscarEmprestimoPorLeitor(txtCampoPesquisado.getText());
+            List<EmprestimoModel> emprestimos = emAtrasoDAO.buscarEmprestimoPorLeitor(txtCampoPesquisado.getText());
             preencherTableViewEmprestimo(emprestimos);
         } else if (getOpcaoBusca() == "Por titulo") {
-            List<EmprestimoModel> emprestimos = buscarEmprestimoPorLivro(txtCampoPesquisado.getText());
+            List<EmprestimoModel> emprestimos = emAtrasoDAO.buscarEmprestimoPorLivro(txtCampoPesquisado.getText());
             preencherTableViewEmprestimo(emprestimos);
         } else {
             JOptionPane.showMessageDialog(null, "selecione uma forma de pesquisa desejado");
         }
 
-    }
-
-    public List<EmprestimoModel> buscarEmprestimoPorLeitor(String nomeLeitor) {
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-
-        List<EmprestimoModel> listaEmprestimo = new ArrayList<>();
-
-        try {
-
-            String sql = "SELECT * FROM emprestimo e JOIN pessoa p ON e.cpf_leitor = p.cpf JOIN livro l ON l.id = e.id_livro WHERE (p.pnome || ' ' || p.sobrenome) LIKE ? AND "
-                    + "e.status = true e.data_prev_dev < ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            LocalDate dataAtual = LocalDate.now();
-            java.sql.Date dataPrevDevolucao = java.sql.Date.valueOf(dataAtual);
-            preparedStatement.setDate(2, dataPrevDevolucao);
-            preparedStatement.setString(1, "%" + nomeLeitor + "%");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                EmprestimoModel emprestimo = new EmprestimoModel(
-                        resultSet.getString("pnome") + " " + resultSet.getString("sobrenome"),
-                        resultSet.getDate("data_emprestimo"),
-                        resultSet.getDate("data_prev_dev"),
-                        resultSet.getDate("data_real_dev"),
-                        resultSet.getDouble("multa"),
-                        resultSet.getString("cpf_leitor"),
-                        resultSet.getString("titulo"),
-                        resultSet.getInt("id_livro"),
-                        resultSet.getBoolean("status"),
-                        resultSet.getInt("id_emprestimo")
-                );
-
-                listaEmprestimo.add(emprestimo);
-            }
-
-        } catch (SQLException excecaoLeitor) {
-            excecaoLeitor.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + excecaoLeitor.getMessage());
-        }
-
-        return listaEmprestimo;
-    }
-
-    public List<EmprestimoModel> buscarEmprestimoPorLivro(String tituloLivro) {
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-
-        List<EmprestimoModel> listaEmprestimo = new ArrayList<>();
-
-        try {
-
-            String sql = "SELECT * FROM emprestimo e JOIN pessoa p ON e.cpf_leitor = p.cpf JOIN livro l ON l.id = e.id_livro WHERE l.titulo LIKE ? AND e.status = true AND e.data_prev_dev < ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            LocalDate dataAtual = LocalDate.now();
-            java.sql.Date dataPrevDevolucao = java.sql.Date.valueOf(dataAtual);
-            preparedStatement.setDate(2, dataPrevDevolucao);
-            preparedStatement.setString(1, "%" + tituloLivro + "%");
-            
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                EmprestimoModel emprestimo = new EmprestimoModel(
-                        resultSet.getString("pnome") + " " + resultSet.getString("sobrenome"),
-                        resultSet.getDate("data_emprestimo"),
-                        resultSet.getDate("data_prev_dev"),
-                        resultSet.getDate("data_real_dev"),
-                        resultSet.getDouble("multa"),
-                        resultSet.getString("cpf_leitor"),
-                        resultSet.getString("titulo"),
-                        resultSet.getInt("id_livro"),
-                        resultSet.getBoolean("status"),
-                        resultSet.getInt("id_emprestimo")
-                );
-
-                listaEmprestimo.add(emprestimo);
-            }
-
-        } catch (SQLException excecaoLeitor) {
-            excecaoLeitor.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + excecaoLeitor.getMessage());
-        }
-
-        return listaEmprestimo;
-    }
-
-    public List<EmprestimoModel> pegarEmprestimos() {
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-
-        List<EmprestimoModel> listaEmprestimo = new ArrayList<>();
-
-        try {
-
-            String sql = "SELECT * FROM emprestimo e JOIN pessoa p ON e.cpf_leitor = p.cpf JOIN livro l ON l.id = e.id_livro WHERE e.status = true AND e.data_prev_dev < ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            LocalDate dataAtual = LocalDate.now();
-            java.sql.Date dataPrevDevolucao = java.sql.Date.valueOf(dataAtual);
-            preparedStatement.setDate(1, dataPrevDevolucao);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                EmprestimoModel emprestimo = new EmprestimoModel(
-                        resultSet.getString("pnome") + " " + resultSet.getString("sobrenome"),
-                        resultSet.getDate("data_emprestimo"),
-                        resultSet.getDate("data_prev_dev"),
-                        resultSet.getDate("data_real_dev"),
-                        resultSet.getDouble("multa"),
-                        resultSet.getString("cpf_leitor"),
-                        resultSet.getString("titulo"),
-                        resultSet.getInt("id_livro"),
-                        resultSet.getBoolean("status"),
-                        resultSet.getInt("id_emprestimo")
-                );
-
-                listaEmprestimo.add(emprestimo);
-            }
-
-        } catch (SQLException excecaoLeitor) {
-            excecaoLeitor.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado 3 " + excecaoLeitor.getMessage());
-        }
-
-        return listaEmprestimo;
     }
 
     public void preencherTableViewEmprestimo(List<EmprestimoModel> emprestimos) {
@@ -274,22 +154,10 @@ public class Em_AtrasoController {
     }
 
     @FXML
-    protected void btDebitarEmprestimo(ActionEvent e) {
+    protected void btDebitarEmprestimo(ActionEvent e) throws Exception {
         EmprestimoModel emprestimoSelecionado = emAtrasoTableView.getSelectionModel().getSelectedItem();
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
 
-        try {
-            String sql = "UPDATE Emprestimo SET status = false WHERE id_emprestimo = ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setInt(1, emprestimoSelecionado.getIdEmprestimo());
-            preparedStatement.executeUpdate();
-            atualizarTabela();
-
-        } catch (SQLException excecaoLeitor) {
-            excecaoLeitor.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado 4 " + excecaoLeitor.getMessage());
-        }
+        emAtrasoDAO.debitarEmprestimo(emprestimoSelecionado.getIdEmprestimo());
     }
 
 }

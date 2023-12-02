@@ -72,7 +72,7 @@ public class NovoEmprestimoController{
     
     
     @FXML
-    public void btCadastrarEmprestimo(ActionEvent e) {
+    public void btCadastrarEmprestimo(ActionEvent e) throws Exception {
         // Criando um empréstimo com multa=0, dataRealDev=null e status=true
         EmprestimoModel emprestimo = new EmprestimoModel(
                 nomeLeitorEmprestimo.getText(),
@@ -154,7 +154,7 @@ public class NovoEmprestimoController{
     }
 
 
-    public void btCancelarEmprestimo(ActionEvent e) {
+    public void btCancelarEmprestimo(ActionEvent e) throws Exception {
         Main.changeScreen("emprestimos");
     }
     

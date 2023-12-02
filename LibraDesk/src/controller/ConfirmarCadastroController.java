@@ -12,7 +12,11 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import org.w3c.dom.Node;
 
+import DAO.LoginDAO;
+
 public class ConfirmarCadastroController {
+
+    LoginDAO loginDAO = new LoginDAO();
 
     @FXML
     private TextField txtLogin;
@@ -31,44 +35,18 @@ public class ConfirmarCadastroController {
         String login = txtLogin.getText();
         String senha = txtSenha.getText();
 
-        if (validarCampos()) {
+        if (loginDAO.validarCampos(login, senha)) {
             cadastrarUsuarioController.CadastrarUsuario();
-            //Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-            //stage.close();
+            
         } else {
             JOptionPane.showMessageDialog(null, "Login ou senha incorretos");
         }
     }
 
     @FXML
-    protected void btCancelar(ActionEvent e) {
+    protected void btCancelar(ActionEvent e) throws Exception {
         Main.changeScreen("novoUsuario");
     }
 
-    public boolean validarCampos() {
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-        String loginCoordenador = "";
-        String senhaCoordenador = "";
-
-        try {
-            String sql = "SELECT * FROM bibliotecaria WHERE coordenador = true";
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-            ResultSet resultSet = stmt.executeQuery();
-
-            while (resultSet.next()) {
-                loginCoordenador = resultSet.getString("email");
-                senhaCoordenador = resultSet.getString("senha");
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados" + ex.getMessage());
-        }
-
-        String login = txtLogin.getText();
-        String senha = txtSenha.getText();
-
-        return login.equals(loginCoordenador) && senha.equals(senhaCoordenador);
-    }
+    
 }

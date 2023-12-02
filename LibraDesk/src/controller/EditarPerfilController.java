@@ -20,7 +20,7 @@ import model.LivroModel;
  * @author arauj
  */
 public class EditarPerfilController {
-    protected void btCancelar(ActionEvent e){
+    protected void btCancelar(ActionEvent e) throws Exception {
         Main.changeScreen("perfil");
     }
 }

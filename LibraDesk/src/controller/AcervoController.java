@@ -12,6 +12,8 @@ import java.sql.Connection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.swing.JOptionPane;
+
+import DAO.AcervoDAO;
 import javafx.scene.control.TextField;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -41,36 +43,38 @@ import javafx.stage.StageStyle;
  */
 public class AcervoController {
 
+    AcervoDAO acervoDAO = new AcervoDAO();
+
     @FXML
     private TextField txtTituloPesquisado;
 
     @FXML
-    protected void btNovoLivro(ActionEvent e) {
+    protected void btNovoLivro(ActionEvent e) throws Exception {
         openNovoLivroPopup();
     }
 
     @FXML
-    protected void btLeitores(ActionEvent e) {
+    protected void btLeitores(ActionEvent e) throws Exception  {
         Main.changeScreen("leitores");
     }
 
     @FXML
-    protected void btEmprestimos(ActionEvent e) {
+    protected void btEmprestimos(ActionEvent e) throws Exception {
         Main.changeScreen("emprestimos");
     }
 
     @FXML
-    protected void btEmAtraso(ActionEvent e) {
+    protected void btEmAtraso(ActionEvent e) throws Exception  {
         Main.changeScreen("em_atraso");
     }
 
     @FXML
-    protected void btFuncionario(ActionEvent e) {
+    protected void btFuncionario(ActionEvent e) throws Exception {
         Main.changeScreen("funcionario");
     }
 
     @FXML
-    protected void btPerfil(ActionEvent e) {
+    protected void btPerfil(ActionEvent e) throws Exception {
         Main.changeScreen("perfil");
     }
 
@@ -107,7 +111,7 @@ public class AcervoController {
 
         String titulo = txtTituloPesquisado.getText(); // Suponha que você tenha um campo de texto para digitar o
                                                        // título.
-        livros = pesquisarLivroPorTitulo(titulo);
+        livros = acervoDAO.pesquisarLivroPorTitulo(titulo);
         preencherTableView(livros);
     }
 
@@ -135,71 +139,17 @@ public class AcervoController {
     }
 
     public void atualizarTabela() {
-        List<LivroModel> acervo = pegarLivrosAcervo();
+        List<LivroModel> acervo = acervoDAO.pegarLivrosAcervo();
         preencherTableView(acervo);
     }
 
-    public List<LivroModel> pegarLivrosAcervo() {
-        // JOptionPane.showMessageDialog(null, " OK! ");
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-        List<LivroModel> listaLivros = new ArrayList<>();
 
-        try {
-            String sql = "SELECT * FROM Livro";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                LivroModel livro = new LivroModel();
-                livro.setId(resultSet.getInt("id"));
-                livro.setTitulo(resultSet.getString("titulo"));
-                livro.setAutor(resultSet.getString("autor"));
-                livro.setLocalBiblioteca(resultSet.getString("local_biblioteca"));
-                livro.setNumeroExemplares(resultSet.getInt("num_exemplares"));
-                listaLivros.add(livro);
-            }
-        } catch (SQLException exececaoAcervo) {
-            exececaoAcervo.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + exececaoAcervo.getMessage());
-        }
-
-        return listaLivros;
-    }
 
     public void preencherTableView(List<LivroModel> livros) {
         ObservableList<LivroModel> livrosObservableList = FXCollections.observableArrayList(livros);
         livrosTableView.setItems(livrosObservableList);
     }
 
-    public List<LivroModel> pesquisarLivroPorTitulo(String titulo) {
-        // JOptionPane.showMessageDialog(null, " OK! ");
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-        List<LivroModel> listaLivros = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM Livro WHERE titulo LIKE ?";
-            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, "%" + titulo + "%");
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                LivroModel livro = new LivroModel();
-                livro.setId(resultSet.getInt("id"));
-                livro.setTitulo(resultSet.getString("titulo"));
-                livro.setAutor(resultSet.getString("autor"));
-                livro.setLocalBiblioteca(resultSet.getString("local_biblioteca"));
-                livro.setNumeroExemplares(resultSet.getInt("num_exemplares"));
-                listaLivros.add(livro);
-            }
-        } catch (SQLException exececaoAcervo) {
-            exececaoAcervo.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + exececaoAcervo.getMessage());
-        }
-
-        return listaLivros;
-    }
 
     @FXML
     public void btOpenEditarLivro() {
@@ -215,7 +165,6 @@ public class AcervoController {
 
             // Passando o LeitorModel selecionado para o controlador
             controller.preencherCampos(livroSelecionado);
-            controller.setAcervoController(this);
 
             // Criando um novo palco (Stage) para a tela de edição
             Stage edicaoLeitorStage = new Stage();
@@ -246,16 +195,7 @@ public class AcervoController {
         Connection conexao = conSing.getConexao();
         openExcluirPopup();
         if (confirmacao) {
-            try {
-                String sql = "DELETE FROM Livro WHERE id = ?";
-                PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-                preparedStatement.setInt(1, livroSelecionado.getId());
-
-                preparedStatement.executeUpdate();
-                atualizarTabela();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            acervoDAO.excluirLivro(livroSelecionado.getId());
         }else{
             JOptionPane.showMessageDialog(null, "Exclusão cancelada!");
         }

@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+
+import DAO.FuncionarioDAO;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import conexaoDAO.Conexao;
@@ -33,27 +35,29 @@ import java.sql.ResultSet;
  * @author arauj
  */
 public class FuncionarioController{
+
+    FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
     
     @FXML
     private TableView<BibliotecariaModel> TableViewFuncionario;
 
     @FXML
-    protected void btVoltar(ActionEvent e){
+    protected void btVoltar(ActionEvent e) throws Exception {
         Main.changeScreen("acervo");
     }
 
      @FXML
-    protected void btExcluir(ActionEvent e){
+    protected void btExcluir(ActionEvent e) throws Exception {
         openExcluirPopup();
     }
     
     @FXML
-    protected void btPerfil(ActionEvent e){
+    protected void btPerfil(ActionEvent e)throws Exception {
         Main.changeScreen("perfil");
     }
     
     @FXML
-    protected void btConfirmarEdicao(ActionEvent e){
+    protected void btConfirmarEdicao(ActionEvent e)throws Exception {
         openEditarPopup();
     }
     
@@ -67,47 +71,14 @@ public class FuncionarioController{
 
         TableViewFuncionario.getColumns().addAll(colNome, colCargo);
         atualizarTabela();
-
-
-
     }
 
     public void atualizarTabela(){
-        List<BibliotecariaModel> listaBibliotecaria = getFuncionarios();
+        List<BibliotecariaModel> listaBibliotecaria = funcionarioDAO.getFuncionarios();
         preencherTableView(listaBibliotecaria);
     }
 
-    public List<BibliotecariaModel> getFuncionarios(){
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-        List<BibliotecariaModel> listaBibliotecaria = new ArrayList<>();
-
-        try{
-            String sql = "SELECT * FROM bibliotecaria b JOIN pessoa p ON b.cpf = p.cpf";
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-
-            while(rs.next()){
-                BibliotecariaModel bibliotecaria = new BibliotecariaModel(
-                    rs.getString("pnome"),
-                    rs.getString("sobrenome"),
-                    rs.getString("cpf"),
-                    rs.getString("email"),
-                    rs.getString("senha"),
-                    rs.getBoolean("coordenador")
-                );
-                
-
-                listaBibliotecaria.add(bibliotecaria);
-            }
-
-        }catch (SQLException exececaoAcervo) {
-            exececaoAcervo.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Deu errado: " + exececaoAcervo.getMessage());
-        }
-
-        return listaBibliotecaria;
-    }
+    
 
     public void preencherTableView(List<BibliotecariaModel> listaBibliotecaria){       
         ObservableList<BibliotecariaModel> observableListBibliotecaria = FXCollections.observableArrayList(listaBibliotecaria);

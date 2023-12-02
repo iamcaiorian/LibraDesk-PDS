@@ -21,27 +21,27 @@ import javafx.stage.StageStyle;
 public class PerfilController{
     
     @FXML
-    protected void btVoltar(ActionEvent e){
+    protected void btVoltar(ActionEvent e) throws Exception {
         Main.changeScreen("acervo");
     }
 
      @FXML
-    protected void btLogout(ActionEvent e){
+    protected void btLogout(ActionEvent e) throws Exception {
         Main.changeScreen("login");
     }
 
      @FXML
-    protected void btExcluir(ActionEvent e){
+    protected void btExcluir(ActionEvent e) throws Exception {
         openExcluirPopup();
     }
 
      @FXML
-    protected void btEditar(ActionEvent e){
+    protected void btEditar(ActionEvent e) throws Exception {
         openEditarPopup();
     }
 
     @FXML
-    protected void btFuncionario(ActionEvent e){
+    protected void btFuncionario(ActionEvent e) throws Exception {
         Main.changeScreen("funcionario");
     }
 
