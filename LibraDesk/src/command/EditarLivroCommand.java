@@ -14,7 +14,7 @@ import model.LivroModel;
 
 public class EditarLivroCommand implements PopUpCommand {
     
-    public EditarLivroController execute() throws Exception {
+    public void execute(LivroModel livro) throws Exception {
         
         // Parent xmlEditarLivro = FXMLLoader.load(getClass().getResource("../screens/fxml/EditarLivro.fxml"));
         // // Criando um novo palco (Stage) para a tela editarLivro
@@ -22,6 +22,7 @@ public class EditarLivroCommand implements PopUpCommand {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../screens/fxml/EditarLivro.fxml"));
         Parent xmlEditarLivro = fxmlLoader.load();
         EditarLivroController controller = fxmlLoader.getController();
+        controller.preencherCampos(livro);
 
         Scene editarLivro = new Scene(xmlEditarLivro, 992, 614);
         editarLivro.getStylesheets().add(getClass().getResource("../screens/css/style.css").toExternalForm());
@@ -31,8 +32,5 @@ public class EditarLivroCommand implements PopUpCommand {
         editarLivroStage.initModality(Modality.APPLICATION_MODAL);
         editarLivroStage.setScene(editarLivro);
         editarLivroStage.showAndWait();
-
-        return controller;
     }
-
 }
