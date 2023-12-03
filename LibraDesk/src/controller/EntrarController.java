@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
  *
  * @author CAIO
  */
-public class EntrarController{
+public class EntrarController implements IController {
     
     @FXML
     protected void btEntrar(ActionEvent e) throws Exception {

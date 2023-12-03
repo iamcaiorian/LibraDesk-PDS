@@ -49,7 +49,7 @@ import strategy.MultaPadrao;
  *
  * @author CAIO
  */
-public class EmprestimosController {
+public class EmprestimosController implements IController {
 
     EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
 

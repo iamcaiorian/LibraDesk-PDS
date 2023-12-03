@@ -9,36 +9,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
-
 import DAO.AcervoDAO;
 import model.LivroModel;
+import screens.view.AcervoView;
 
 /**
  *
  * @author gabri
  */
-public class EditarLivroController {
+public class EditarLivroController implements IController {
 
-    private static EditarLivroController instance;
+    public EditarLivroController controller;
 
-    public static EditarLivroController getInstance() {
-        if(instance == null) {
-            instance = new EditarLivroController();
-            return instance;
-        }
-        return instance;
+    public EditarLivroController() {
+        controller = this;
     }
-    
-    private EditarLivroController(){
-        instance = this;
-    }
-
-    AcervoDAO acervoDAO = new AcervoDAO();
 
     @FXML
     private TextField tituloLivro;
@@ -48,32 +37,29 @@ public class EditarLivroController {
     private TextField localizacaoLivro;
     @FXML
     private TextField numExemplaresLivro;
-
+    
     private int idLivro;
-   
-    LivroModel livro;
+    
+    AcervoDAO acervoDAO = new AcervoDAO();
+    LivroModel livroModel;
     
     public void preencherCampos(LivroModel livro) {
-        
-        String titulo = livro.getTitulo();
-        System.out.print(titulo);
-        
-        this.livro = livro;
 
-    }
-    
-    @FXML
-    public void initialize(){
-        
+        livroModel = livro;
         String titulo = livro.getTitulo();
         String autor = livro.getAutor();
-        String localizacao = livro.getLocalBiblioteca();
+        String localizacao = String.valueOf(livro.getLocalBiblioteca());
         String numExemplares = String.valueOf(livro.getNumeroExemplares());
+
+        System.out.println("titulo: " + titulo);
+        System.out.println("autor: " + autor);
+        System.out.println("localizacao: " + localizacao);
+        System.out.println("numExemplares: " + numExemplares);
         
-        tituloLivro.setText(titulo);
-        autorLivro.setText(autor);
-        localizacaoLivro.setText(localizacao);
-        numExemplaresLivro.setText(numExemplares);
+        tituloLivro.setText(livro.getTitulo());
+        autorLivro.setText(livro.getAutor());
+        localizacaoLivro.setText(String.valueOf(livro.getLocalBiblioteca()));
+        numExemplaresLivro.setText(String.valueOf(livro.getNumeroExemplares()));
         idLivro = livro.getId();
     }
 
@@ -91,12 +77,16 @@ public class EditarLivroController {
     }
 
     @FXML
+    public void initialize(LivroModel livro) {
+        if(livro != null) preencherCampos(livro);
+    }
+
+    @FXML
     public void btCancelar(ActionEvent e) throws Exception {
         Main.changeScreen("acervo");
     }
 
     public void EditarLivro(LivroModel livro) {
         acervoDAO.EditarLivro(livro);
-
     }
 }

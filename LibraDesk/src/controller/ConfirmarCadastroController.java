@@ -14,7 +14,7 @@ import org.w3c.dom.Node;
 
 import DAO.LoginDAO;
 
-public class ConfirmarCadastroController {
+public class ConfirmarCadastroController implements IController {
 
     LoginDAO loginDAO = new LoginDAO();
 

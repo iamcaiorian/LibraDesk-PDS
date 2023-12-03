@@ -24,7 +24,7 @@ import model.LivroModel;
  *
  * @author arauj
  */
-public class NovoLivroController {
+public class NovoLivroController implements IController {
 
     AcervoDAO acervoDAO = new AcervoDAO();
 
@@ -41,8 +41,7 @@ public class NovoLivroController {
     
     @FXML
     public void initialize(){
-            tituloLivro.setText("AAA");
-           }
+    }
 
     @FXML
     public void BtCadastrar(ActionEvent e) throws Exception  {

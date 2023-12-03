@@ -41,7 +41,7 @@ import javafx.stage.StageStyle;
  *
  * @author CAIO
  */
-public class AcervoController {
+public class AcervoController implements IController {
 
     AcervoDAO acervoDAO = new AcervoDAO();
     

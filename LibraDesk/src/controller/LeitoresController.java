@@ -37,7 +37,7 @@ import DAO.LeitoresDAO;
  *
  * @author CAIO
  */
-public class LeitoresController {
+public class LeitoresController implements IController {
 
     LeitoresDAO leitoresDAO = new LeitoresDAO();
 

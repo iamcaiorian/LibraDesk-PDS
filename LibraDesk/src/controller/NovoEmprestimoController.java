@@ -36,7 +36,7 @@ import javafx.fxml.FXMLLoader;
  *
  * @author arauj
  */
-public class NovoEmprestimoController{
+public class NovoEmprestimoController implements IController {
     
     @FXML
     private TextField nomeLeitorEmprestimo;
