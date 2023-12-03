@@ -30,7 +30,7 @@ import model.BibliotecariaModel;
  *
  * @author CAIO
  */
-public class CadastrarUsuarioController{
+public class CadastrarUsuarioController implements IController {
     
     @FXML
     private TextField txtNomeUsuario;

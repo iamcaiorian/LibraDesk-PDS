@@ -18,7 +18,7 @@ import javafx.stage.StageStyle;
  *
  * @author arauj
  */
-public class PerfilController{
+public class PerfilController implements IController {
     
     @FXML
     protected void btVoltar(ActionEvent e) throws Exception {

@@ -11,8 +11,8 @@ import java.sql.Connection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.swing.JOptionPane;
-
 import DAO.AcervoDAO;
+import command.*;
 import javafx.scene.control.TextField;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -35,16 +35,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import DAO.AcervoDAO;
-import controller.AcervoController;
-import controller.EditarLivroController;
-import controller.Main;
-import controller.NovoLivroController;
+import controller.*;
 import model.LivroModel;
 
 public class AcervoView {
-
+    
+    InvokerPopUpCommand invoker = new InvokerPopUpCommand();
+    
+    public static LivroModel livroSelecionado;
     AcervoController acervoController = new AcervoController();
-
+    
     @FXML
     private TextField txtTituloPesquisado;
 
@@ -57,58 +57,60 @@ public class AcervoView {
 
         Main.changeScreen("novoLivro");
     }
-
+    
     @FXML
     protected void btLeitores(ActionEvent e) throws Exception {
         Main.changeScreen("leitores");
     }
-
+    
     @FXML
     protected void btEmprestimos(ActionEvent e) throws Exception {
         Main.changeScreen("emprestimos");
     }
-
+    
     @FXML
     protected void btEmAtraso(ActionEvent e) throws Exception {
         Main.changeScreen("em_atraso");
     }
-
+    
     @FXML
     protected void btFuncionario(ActionEvent e) throws Exception {
         Main.changeScreen("funcionario");
     }
-
+    
     @FXML
     protected void btPerfil(ActionEvent e) throws Exception {
         Main.changeScreen("perfil");
     }
-
+    
     @FXML
     private TableView<LivroModel> livrosTableView;
-
+    
     @FXML
     public void initialize() {
+        invoker.register("editarLivro", new EditarLivroCommand()); 
+
         TableColumn<LivroModel, String> colTitulo = new TableColumn("Titulo");
         colTitulo.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTitulo()));
 
         TableColumn<LivroModel, String> colAutor = new TableColumn("Autor");
         colAutor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAutor()));
-
+        
         TableColumn<LivroModel, String> colLocalizacao = new TableColumn("Localizacao");
         colLocalizacao.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLocalBiblioteca()));
-
+        
         TableColumn<LivroModel, Integer> colNumExemplares = new TableColumn("Numero Exemplares");
         colNumExemplares.setCellValueFactory(
-                data -> new SimpleIntegerProperty(data.getValue().getNumeroExemplares()).asObject());
-
-        TableColumn<LivroModel, Integer> colId = new TableColumn("Id");
-        colId.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
-
-        livrosTableView.getColumns().addAll(colId, colTitulo, colAutor, colLocalizacao, colNumExemplares);
-
-        atualizarTabela();
-    }
-
+            data -> new SimpleIntegerProperty(data.getValue().getNumeroExemplares()).asObject());
+            
+            TableColumn<LivroModel, Integer> colId = new TableColumn("Id");
+            colId.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getId()).asObject());
+            
+            livrosTableView.getColumns().addAll(colId, colTitulo, colAutor, colLocalizacao, colNumExemplares);
+            
+            atualizarTabela();
+        }
+        
     public void atualizarTabela() {
         List<LivroModel> acervo = acervoController.pegarLivrosAcervo();
         preencherTableView(acervo);
@@ -120,68 +122,63 @@ public class AcervoView {
         List<LivroModel> livros = acervoController.buscarLivrosPorTitulo(titulo);
         preencherTableView(livros);
     }
-
+    
     public void preencherTableView(List<LivroModel> livros) {
         ObservableList<LivroModel> livrosObservableList = FXCollections.observableArrayList(livros);
         livrosTableView.setItems(livrosObservableList);
     }
-
+    
     @FXML
     public void btExcluirLivro(ActionEvent e) {
         LivroModel livroSelecionado = livrosTableView.getSelectionModel().getSelectedItem();
         openExcluirPopup(livroSelecionado.getId());
     }
-
+    
     @FXML
     public void btEditarLivro(ActionEvent e) throws Exception {
         LivroModel livroSelecionado = livrosTableView.getSelectionModel().getSelectedItem();
-        System.out.println("1" + livroSelecionado.getTitulo());
+
         if (livroSelecionado == null) {
-            System.out.println(livroSelecionado.getTitulo());
-            // Mostre uma mensagem para o usuário selecionar um livro antes de editar
             return;
         }
-        EditarLivroController controller = EditarLivroController.getInstance();
-        if (controller == null) {
-            System.out.println("controler nulo");
-            // Mostre uma mensagem para o usuário que a tela de edição não foi carregada
-            // corretamente
+
+        IController controller = invoker.invoke("editarLivro");
+        EditarLivroController controllerEditarLivro = (EditarLivroController) controller;
+
+        if (controllerEditarLivro == null) {
             return;
         }
-        
-        
-        
-        controller.preencherCampos(livroSelecionado);
-        System.out.println("4");
+
+        controllerEditarLivro.initialize(livroSelecionado);
         Main.changeScreen("editarLivro");
     }
 
-    private void openEditarLivro(LivroModel livro) {
-        try {
-            // Carregando o arquivo FXML da tela de edição
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../fxml/EditarLivro.fxml"));
-            Parent root = loader.load();
+    // private void openEditarLivro(LivroModel livro) {
+    //     try {
+    //         // Carregando o arquivo FXML da tela de edição
+    //         FXMLLoader loader = new FXMLLoader(Main.class.getResource("../fxml/EditarLivro.fxml"));
+    //         Parent root = loader.load();
 
-            // Obtendo o controlador da tela de edição
-            EditarLivroController controller = loader.getController();
+    //         // Obtendo o controlador da tela de edição
+    //         EditarLivroController controller = loader.getController();
 
-            // Passando o LeitorModel selecionado para o controlador
-            controller.preencherCampos(livro);
+    //         // Passando o LeitorModel selecionado para o controlador
+    //         controller.preencherCampos(livro);
 
-            // Criando um novo palco (Stage) para a tela de edição
-            Stage edicaoLeitorStage = new Stage();
-            edicaoLeitorStage.setTitle("Editar Livro");
-            edicaoLeitorStage.initStyle(StageStyle.UTILITY);
-            edicaoLeitorStage.initModality(Modality.APPLICATION_MODAL);
-            edicaoLeitorStage.setScene(new Scene(root, 992, 614));
+    //         // Criando um novo palco (Stage) para a tela de edição
+    //         Stage edicaoLeitorStage = new Stage();
+    //         edicaoLeitorStage.setTitle("Editar Livro");
+    //         edicaoLeitorStage.initStyle(StageStyle.UTILITY);
+    //         edicaoLeitorStage.initModality(Modality.APPLICATION_MODAL);
+    //         edicaoLeitorStage.setScene(new Scene(root, 992, 614));
 
-            // Exibindo o palco
-            edicaoLeitorStage.showAndWait();
-        } catch (Exception ex) {
-            // Tratamento de exceção (substitua por um tratamento adequado)
-            ex.printStackTrace();
-        }
-    }
+    //         // Exibindo o palco
+    //         edicaoLeitorStage.showAndWait();
+    //     } catch (Exception ex) {
+    //         // Tratamento de exceção (substitua por um tratamento adequado)
+    //         ex.printStackTrace();
+    //     }
+    // }
 
     private void openExcluirPopup(int id) {
         try {

@@ -21,7 +21,7 @@ import model.PessoaModel;
  *
  * @author gabri
  */
-public class EditarLeitorController {
+public class EditarLeitorController implements IController {
 
     LeitoresDAO leitoresDAO = new LeitoresDAO();
     

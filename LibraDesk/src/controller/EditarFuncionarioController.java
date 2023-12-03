@@ -23,7 +23,7 @@ import model.LivroModel;
  *
  * @author arauj
  */
-public class EditarFuncionarioController {
+public class EditarFuncionarioController implements IController {
     protected void btCancelar(ActionEvent e) throws Exception {
         Main.changeScreen("funcionarios");
         // Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();

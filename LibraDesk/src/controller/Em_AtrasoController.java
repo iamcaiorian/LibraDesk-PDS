@@ -39,7 +39,7 @@ import java.time.LocalDate;
  *
  * @author CAIO
  */
-public class Em_AtrasoController {
+public class Em_AtrasoController implements IController {
 
     EmAtrasoDAO emAtrasoDAO = new EmAtrasoDAO();
 

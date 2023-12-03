@@ -34,7 +34,7 @@ import java.sql.ResultSet;
  *
  * @author arauj
  */
-public class FuncionarioController{
+public class FuncionarioController implements IController {
 
     FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
     
