@@ -10,18 +10,19 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.IModel;
 import model.LivroModel;
+import screens.view.EditarLivroView;
 
 public class EditarLivroCommand implements PopUpCommand {
     
-    public void execute(LivroModel livro) throws Exception {
+    public void execute(IModel Ilivro) throws Exception {
         
-        // Parent xmlEditarLivro = FXMLLoader.load(getClass().getResource("../screens/fxml/EditarLivro.fxml"));
-        // // Criando um novo palco (Stage) para a tela editarLivro
+        LivroModel livro = (LivroModel) Ilivro;
         
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../screens/fxml/EditarLivro.fxml"));
         Parent xmlEditarLivro = fxmlLoader.load();
-        EditarLivroController controller = fxmlLoader.getController();
+        EditarLivroView controller = fxmlLoader.getController();
         controller.preencherCampos(livro);
 
         Scene editarLivro = new Scene(xmlEditarLivro, 992, 614);

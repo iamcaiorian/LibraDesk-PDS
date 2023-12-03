@@ -17,9 +17,6 @@ public class NovoLeitorCommand implements Command
             Parent root = loader.load();
             root.getStylesheets().add(getClass().getResource("../screens/css/style.css").toExternalForm());
 
-
-            NovoLeitorController controller = loader.getController();
-
             // Passando o LeitorModel selecionado para o controlador
 
             // Criando um novo palco (Stage) para a tela NovoLivro

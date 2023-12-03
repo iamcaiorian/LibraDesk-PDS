@@ -26,7 +26,7 @@ public class EmAtrasoDAO implements IDAO{
         try {
 
             String sql = "SELECT * FROM emprestimo e JOIN pessoa p ON e.cpf_leitor = p.cpf JOIN livro l ON l.id = e.id_livro WHERE (p.pnome || ' ' || p.sobrenome) LIKE ? AND "
-                    + "e.status = true e.data_prev_dev < ?";
+                    + "e.status = true AND e.data_prev_dev < ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             LocalDate dataAtual = LocalDate.now();
             java.sql.Date dataPrevDevolucao = java.sql.Date.valueOf(dataAtual);

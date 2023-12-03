@@ -2,12 +2,29 @@ package screens.view;
 
 import java.util.List;
 
-import javax.swing.table.TableColumn;
-import javax.swing.text.TableView;
-
 import controller.FuncionarioController;
 import controller.Main;
 import model.BibliotecariaModel;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import model.EmprestimoModel;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 
 public class FuncionariosView {
     FuncionarioController  funcionarioController = new FuncionarioController();
@@ -80,23 +97,5 @@ public class FuncionariosView {
     }
 
 
-     private static void openEditarPopup() {
-        try {
-            // Carregando o arquivo FXML da tela NovoLivro
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/EditarFuncionario.fxml"));
-            Parent root = loader.load();
-
-            // Criando um novo palco (Stage) para a tela NovoLivro
-            Stage editarFuncionarioStage = new Stage();
-            editarFuncionarioStage.setTitle("Editar Funcionario");
-            editarFuncionarioStage.initStyle(StageStyle.UTILITY);
-            editarFuncionarioStage.initModality(Modality.APPLICATION_MODAL);
-            editarFuncionarioStage.setScene(new Scene(root, 992, 614));
-
-            // Exibindo o palco
-            editarFuncionarioStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+     
 }

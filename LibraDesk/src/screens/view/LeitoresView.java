@@ -1,5 +1,8 @@
 package screens.view;
 
+import command.Command;
+import command.EditarLeitorCommand;
+import command.ExcluirLeitorCommand;
 import javafx.collections.ObservableList;
 import conexaoDAO.Conexao;
 import controller.EditarLeitorController;
@@ -31,11 +34,12 @@ import javafx.scene.control.TableColumn;
 import javax.swing.JOptionPane;
 
 import command.Invoker;
+import command.InvokerPopUpCommand;
 
 
 public class LeitoresView {
     LeitoresController leitoresController = new LeitoresController();
-    Invoker invoker = new Invoker();
+    InvokerPopUpCommand invoker = new InvokerPopUpCommand();
 
     @FXML
     private TextField txtLeitorPesquisado;
@@ -74,7 +78,7 @@ public class LeitoresView {
     }
 
     @FXML
-    protected void btEditarLeitor(ActionEvent e) {
+    protected void btEditarLeitor(ActionEvent e) throws Exception{
         LeitorModel leitorSelecionado = leitoresTableView.getSelectionModel().getSelectedItem();
 
 
@@ -108,11 +112,28 @@ public class LeitoresView {
         //     ex.printStackTrace();
         // }
     }
+    
+    
+    @FXML
+    protected void btExcluirLeitor(ActionEvent e) throws Exception{
+        LeitorModel leitorSelecionado = leitoresTableView.getSelectionModel().getSelectedItem();
+
+
+        if(leitorSelecionado == null){
+            JOptionPane.showMessageDialog(null, "Selecione um leitor para editar");
+        }else{
+            invoker.invoke("excluirLeitor", leitorSelecionado);
+            Main.changeScreen("leitores");
+        }
+    }
 
     @FXML
     public void initialize() {
 
         invoker.register("editarLeitor", new EditarLeitorCommand());
+        invoker.register("excluirLeitor", new ExcluirLeitorCommand());
+        
+        
 
         // Coluna para Nome Completo usando getNomeCompleto
         TableColumn<LeitorModel, String> colNomeCompleto = new TableColumn<>("Nome Completo");

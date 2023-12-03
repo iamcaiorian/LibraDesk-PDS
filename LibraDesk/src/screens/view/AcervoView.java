@@ -42,7 +42,6 @@ public class AcervoView {
     
     InvokerPopUpCommand invoker = new InvokerPopUpCommand();
     
-    public static LivroModel livroSelecionado;
     AcervoController acervoController = new AcervoController();
     
     @FXML

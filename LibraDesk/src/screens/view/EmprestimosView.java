@@ -3,13 +3,24 @@ package screens.view;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.table.TableColumn;
-import javax.swing.text.TableView;
 
 import controller.Main;
 import controller.NovoEmprestimoController;
 import model.EmprestimoModel;
 import controller.EmprestimosController;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import model.EmprestimoModel;
 
 public class EmprestimosView {
 
@@ -139,8 +150,8 @@ public class EmprestimosView {
 
     @FXML
     protected void btBuscarEmprestimo(ActionEvent e) {
-        List<EmprestimoModel> emprestimos = emprestimoController.buscarEmprestimo(txtCampoPesquisado.getText(), getOpcaoBusca());
-        preencherTableViewEmprestimo(emprestimos);
+        List<EmprestimoModel> emprestimos = emprestimoController.buscarEmprestimo( getOpcaoBusca(), txtCampoPesquisado.getText());
+        if(emprestimos != null) preencherTableViewEmprestimo(emprestimos);
     }
 
     private void handleOpcaoSelecionada(MenuItem menuItem) {
@@ -149,8 +160,10 @@ public class EmprestimosView {
     }
 
     @FXML
-    protected void btDebitarEmprestimo(ActionEvent e) {
+    protected void btDebitarEmprestimo(ActionEvent e) throws Exception {
         EmprestimoModel emprestimoSelecionado = emprestimosTableView.getSelectionModel().getSelectedItem();
         emprestimoController.debitarEmprestimo(emprestimoSelecionado.getIdEmprestimo());
+        Main.changeScreen("emprestimos");
+       
     }
 }

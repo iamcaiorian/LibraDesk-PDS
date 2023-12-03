@@ -9,7 +9,7 @@ package model;
  *
  * @author gabri
  */
-public class LeitorModel extends PessoaModel implements IModel{
+public class LeitorModel extends PessoaModel{
     private String telefoneUm;
     private String telefoneDois;
     private String bairro;
@@ -54,7 +54,7 @@ public class LeitorModel extends PessoaModel implements IModel{
     }
 
     public String getEndereco() {
-        return cidade + " " + bairro + " " + rua;
+        return cidade + ", " + bairro + ", " + rua;
     }
 
     public void setTelefoneUm(String telefoneUm) {

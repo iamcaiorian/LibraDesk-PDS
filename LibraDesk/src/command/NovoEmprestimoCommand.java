@@ -2,6 +2,12 @@ package command;
 
 import controller.Main;
 import controller.NovoEmprestimoController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class NovoEmprestimoCommand implements Command{
     public void execute() throws Exception {
