@@ -73,5 +73,10 @@ public class NovoLeitorController implements IController {
         stage.close();
         Main.changeScreen("leitores");
     }
+    
+    @FXML
+    public void btCancelarLeitor(ActionEvent e) throws Exception  {
+        Main.changeScreen("leitores");
+    }
 
 }

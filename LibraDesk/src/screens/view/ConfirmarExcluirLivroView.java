@@ -15,19 +15,18 @@ import javafx.stage.Stage;
 
 import javax.swing.Action;
 import javax.swing.JOptionPane;
+
+import DAO.AcervoDAO;
 import model.LivroModel;
 
 
 public class ConfirmarExcluirLivroView {
-    public AcervoController acervoController;
+
+    AcervoController acervoController = new AcervoController();
     int idLivro;
     
     public void setIdLivro(int idLivro) {
         this.idLivro = idLivro;
-    }
-
-    public void setAcervoController(AcervoController acervoController) {
-        this.acervoController = acervoController;
     }
 
     @FXML
