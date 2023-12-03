@@ -142,14 +142,7 @@ public class AcervoView {
             return;
         }
 
-        IController controller = invoker.invoke("editarLivro");
-        EditarLivroController controllerEditarLivro = (EditarLivroController) controller;
-
-        if (controllerEditarLivro == null) {
-            return;
-        }
-
-        controllerEditarLivro.initialize(livroSelecionado);
+        invoker.invoke("editarLivro", livroSelecionado);        
         Main.changeScreen("editarLivro");
     }
 

@@ -3,6 +3,7 @@ package command;
 import java.util.HashMap;
 import java.util.Map;
 import controller.IController;
+import model.LivroModel;
 
 public class InvokerPopUpCommand {
     private Map<String, PopUpCommand> commandMap = new HashMap<>();
@@ -11,11 +12,10 @@ public class InvokerPopUpCommand {
         commandMap.put(commandName, command);
     }
 
-    public IController invoke(String commandName) throws Exception {
+    public void invoke(String commandName, LivroModel livro) throws Exception {
         PopUpCommand command = commandMap.get(commandName);
         if (command != null) {
-            return command.execute();
+            command.execute(livro);
         }
-        return null;
     }
 }
