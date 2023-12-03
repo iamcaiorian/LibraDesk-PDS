@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import DAO.AcervoDAO;
 import model.LivroModel;
 import screens.view.AcervoView;
+import model.IModel;
 
 /**
  *

@@ -39,6 +39,7 @@ public class Main extends Application{
         invoker.register("funcionario", new FuncionariosCommand());
         invoker.register("novoLivro", new NovoLivroCommand());
         invoker.register("novoLeitor", new NovoLeitorCommand());
+        invoker.register("novoEmprestimo", new NovoEmprestimoCommand());
 
         invoker.invoke("login");
         primaryStage.show();

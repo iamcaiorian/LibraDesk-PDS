@@ -54,7 +54,6 @@ public class AcervoView {
 
     @FXML
     protected void btNovoLivro(ActionEvent e) throws Exception {
-
         Main.changeScreen("novoLivro");
     }
     

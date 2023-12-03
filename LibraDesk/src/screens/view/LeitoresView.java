@@ -30,9 +30,12 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javax.swing.JOptionPane;
 
+import command.Invoker;
+
 
 public class LeitoresView {
     LeitoresController leitoresController = new LeitoresController();
+    Invoker invoker = new Invoker();
 
     @FXML
     private TextField txtLeitorPesquisado;
@@ -74,34 +77,43 @@ public class LeitoresView {
     protected void btEditarLeitor(ActionEvent e) {
         LeitorModel leitorSelecionado = leitoresTableView.getSelectionModel().getSelectedItem();
 
-        try {
-            // Carregando o arquivo FXML da tela de edição
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/EditarLeitor.fxml"));
-            Parent root = loader.load();
 
-            // Obtendo o controlador da tela de edição
-            EditarLeitorController controller = loader.getController();
-
-            // Passando o LeitorModel selecionado para o controlador
-            controller.preencherCampos(leitorSelecionado);
-
-            // Criando um novo palco (Stage) para a tela de edição
-            Stage edicaoLeitorStage = new Stage();
-            edicaoLeitorStage.setTitle("Editar Leitor");
-            edicaoLeitorStage.initStyle(StageStyle.UTILITY);
-            edicaoLeitorStage.initModality(Modality.APPLICATION_MODAL);
-            edicaoLeitorStage.setScene(new Scene(root, 992, 614));
-
-            // Exibindo o palco
-            edicaoLeitorStage.showAndWait();
-        } catch (Exception ex) {
-            // Tratamento de exceção (substitua por um tratamento adequado)
-            ex.printStackTrace();
+        if(leitorSelecionado == null){
+            JOptionPane.showMessageDialog(null, "Selecione um leitor para editar");
+        }else{
+            invoker.invoke("editarLeitor", leitorSelecionado);
         }
+        // try {
+        //     // Carregando o arquivo FXML da tela de edição
+        //     FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/EditarLeitor.fxml"));
+        //     Parent root = loader.load();
+
+        //     // Obtendo o controlador da tela de edição
+        //     EditarLeitorController controller = loader.getController();
+
+        //     // Passando o LeitorModel selecionado para o controlador
+        //     controller.preencherCampos(leitorSelecionado);
+
+        //     // Criando um novo palco (Stage) para a tela de edição
+        //     Stage edicaoLeitorStage = new Stage();
+        //     edicaoLeitorStage.setTitle("Editar Leitor");
+        //     edicaoLeitorStage.initStyle(StageStyle.UTILITY);
+        //     edicaoLeitorStage.initModality(Modality.APPLICATION_MODAL);
+        //     edicaoLeitorStage.setScene(new Scene(root, 992, 614));
+
+        //     // Exibindo o palco
+        //     edicaoLeitorStage.showAndWait();
+        // } catch (Exception ex) {
+        //     // Tratamento de exceção (substitua por um tratamento adequado)
+        //     ex.printStackTrace();
+        // }
     }
 
     @FXML
     public void initialize() {
+
+        invoker.register("editarLeitor", new EditarLeitorCommand());
+
         // Coluna para Nome Completo usando getNomeCompleto
         TableColumn<LeitorModel, String> colNomeCompleto = new TableColumn<>("Nome Completo");
         colNomeCompleto.setCellValueFactory(data -> new SimpleStringProperty(
@@ -157,28 +169,28 @@ public class LeitoresView {
         leitoresTableView.setItems(leitoresObservableList);
     }
 
-    private void openNovoLeitorPopup() {
-        try {
-            // Carregando o arquivo FXML da tela NovoLivro
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/NovoLeitor.fxml"));
-            Parent root = loader.load();
+    // private void openNovoLeitorPopup() {
+    //     try {
+    //         // Carregando o arquivo FXML da tela NovoLivro
+    //         FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/NovoLeitor.fxml"));
+    //         Parent root = loader.load();
 
-            NovoLeitorController controller = loader.getController();
+    //         NovoLeitorController controller = loader.getController();
 
-            // Passando o LeitorModel selecionado para o controlador
+    //         // Passando o LeitorModel selecionado para o controlador
 
-            // Criando um novo palco (Stage) para a tela NovoLivro
-            Stage novoLeitorStage = new Stage();
-            novoLeitorStage.setTitle("Novo Leitor");
-            novoLeitorStage.initStyle(StageStyle.UTILITY);
-            novoLeitorStage.initModality(Modality.APPLICATION_MODAL);
-            novoLeitorStage.setScene(new Scene(root, 992, 614));
+    //         // Criando um novo palco (Stage) para a tela NovoLivro
+    //         Stage novoLeitorStage = new Stage();
+    //         novoLeitorStage.setTitle("Novo Leitor");
+    //         novoLeitorStage.initStyle(StageStyle.UTILITY);
+    //         novoLeitorStage.initModality(Modality.APPLICATION_MODAL);
+    //         novoLeitorStage.setScene(new Scene(root, 992, 614));
 
-            // Exibindo o palco
-            novoLeitorStage.showAndWait();
-        } catch (Exception e) {
-            // Tratamento de exceção (substitua por um tratamento adequado)
-            e.printStackTrace();
-        }
-    }
+    //         // Exibindo o palco
+    //         novoLeitorStage.showAndWait();
+    //     } catch (Exception e) {
+    //         // Tratamento de exceção (substitua por um tratamento adequado)
+    //         e.printStackTrace();
+    //     }
+    // }
 }

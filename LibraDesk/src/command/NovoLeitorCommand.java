@@ -15,6 +15,8 @@ public class NovoLeitorCommand implements Command
             // Carregando o arquivo FXML da tela NovoLivro
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("../screens/fxml/NovoLeitor.fxml"));
             Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("../screens/css/style.css").toExternalForm());
+
 
             NovoLeitorController controller = loader.getController();
 

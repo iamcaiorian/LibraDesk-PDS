@@ -9,7 +9,7 @@ package model;
  *
  * @author gabri
  */
-public class LeitorModel extends PessoaModel {
+public class LeitorModel extends PessoaModel implements IModel{
     private String telefoneUm;
     private String telefoneDois;
     private String bairro;
