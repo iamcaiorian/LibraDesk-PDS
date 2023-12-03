@@ -69,6 +69,21 @@ public class FuncionarioDAO implements IDAO{
 
     }
 
+    public void ExcluirFuncionario(String cpf){
+
+        try{
+            String sql = "DELETE FROM pessoa WHERE cpf = ?";
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, cpf);
+
+            stmt.executeUpdate();
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao excluir funcionario: " + ex);
+        }
+    }
+
     public void CadastrarBibliotecaria(BibliotecariaModel bibliotecaria){
         Conexao conSing = Conexao.getInstancy();
         Connection conexao = conSing.getConexao();

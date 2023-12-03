@@ -181,8 +181,6 @@ public class EmprestimoDAO implements IDAO{
     }
 
     public void debitarEmprestimo(int idEmprestimo){
-        
-        
         try{
             String sql = "UPDATE Emprestimo SET status = false WHERE id_emprestimo = ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);

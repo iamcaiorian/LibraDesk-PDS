@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" stylesheets="@../libradesk/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FuncionarioController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #ffffff;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.view.FuncionariosView">
    <children>
       <Pane id="pageTop" prefHeight="120.0" prefWidth="1434.0" style="-fx-background-color: #00ACD5;" stylesheets="@style.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="1363.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0">
@@ -59,7 +59,7 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="1.0" layoutY="122.0" prefHeight="598.0" prefWidth="1280.0">
+      <HBox alignment="CENTER" layoutX="1.0" layoutY="122.0" prefHeight="598.0" prefWidth="1280.0" stylesheets="@../css/style.css">
          <children>
             <VBox prefHeight="543.0" prefWidth="746.0" spacing="24.0">
                <opaqueInsets>
@@ -90,14 +90,6 @@
                         </Text>
                         <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="486.0" spacing="16.0">
                            <children>
-                              <Button id="editButton" fx:id="botaoEditarPerfil" maxWidth="140.0" minHeight="40.0" minWidth="140.0" mnemonicParsing="false" onAction="#btConfirmarEdicao" prefHeight="40.0" prefWidth="134.0" text="Editar" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
                               <Button id="removeButton" fx:id="botaoExcluirPerfil" maxWidth="140.0" minHeight="40.0" minWidth="140.0" mnemonicParsing="false" onAction="#btExcluir" prefHeight="40.0" prefWidth="200.0" text="Excluir" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="20.0" />

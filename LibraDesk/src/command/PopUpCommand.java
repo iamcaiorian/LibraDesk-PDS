@@ -1,9 +1,8 @@
 package command;
 
-import controller.IController;
-import model.LivroModel;
-import controller.EditarLivroController;
+
+import model.*;
 
 public interface PopUpCommand {
-    public void execute(LivroModel livro) throws Exception;
+    public void execute(IModel model) throws Exception;
 }

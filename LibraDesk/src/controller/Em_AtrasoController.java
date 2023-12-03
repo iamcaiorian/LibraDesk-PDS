@@ -43,121 +43,27 @@ public class Em_AtrasoController implements IController {
 
     EmAtrasoDAO emAtrasoDAO = new EmAtrasoDAO();
 
-    @FXML
-    protected void btLeitores(ActionEvent e) throws Exception {
-        Main.changeScreen("leitores");
+    public List<EmprestimoModel> pegarEmprestimos() {
+        return emAtrasoDAO.pegarEmprestimos();
     }
 
-    @FXML
-    protected void btEmprestimos(ActionEvent e) throws Exception {
-        Main.changeScreen("emprestimos");
-    }
+    public List<EmprestimoModel> buscarEmprestimo(String opcaoBusca, String campoPesquisado) {
 
-    @FXML
-    protected void btAcervo(ActionEvent e) throws Exception {
-        Main.changeScreen("acervo");
-    }
-
-    @FXML
-    protected void btPerfil(ActionEvent e) throws Exception {
-        Main.changeScreen("perfil");
-    }
-
-    @FXML
-    protected void btFuncionario(ActionEvent e) throws Exception {
-        Main.changeScreen("funcionario");
-    }
-    
-    @FXML
-    private TableView<EmprestimoModel> emAtrasoTableView;
-    
-    @FXML
-    private MenuButton btOpcaoBusca;
-    
-    @FXML
-    private TextField txtCampoPesquisado;
-
-    @FXML
-    public void initialize() {
-
-        MenuItem item1 = new MenuItem("Por leitor");
-        MenuItem item2 = new MenuItem("Por titulo");
-
-        item1.setOnAction(event -> handleOpcaoSelecionada(item1));
-        item2.setOnAction(event -> handleOpcaoSelecionada(item2));
-
-        btOpcaoBusca.getItems().addAll(item1, item2);
-
-        TableColumn<EmprestimoModel, Integer> colIdEmprestimo = new TableColumn<>("Nº");
-        colIdEmprestimo.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getIdEmprestimo()).asObject());
-
-        TableColumn<EmprestimoModel, String> colNomeLeitor = new TableColumn<>("Nome Leitor");
-        colNomeLeitor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNomeLeitor()));
-
-        TableColumn<EmprestimoModel, String> colCpfLeitor = new TableColumn<>("CPF Leitor");
-        colCpfLeitor.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCpfLeitor()));
-
-        TableColumn<EmprestimoModel, String> colNomeLivro = new TableColumn<>("Nome Livro");
-        colNomeLivro.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNomeLivro()));
-
-        TableColumn<EmprestimoModel, Date> colDataEmprestimo = new TableColumn<>("Data Empréstimo");
-        colDataEmprestimo.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDataEmprestimo()));
-
-        TableColumn<EmprestimoModel, Date> colDataPrevDevolucao = new TableColumn<>("Data Devolução Prevista");
-        colDataPrevDevolucao.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDataPrevDev()));
-
-        TableColumn<EmprestimoModel, Double> colMulta = new TableColumn<>("Multa");
-        colMulta.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getMulta()));
-
-        TableColumn<EmprestimoModel, String> colStatus = new TableColumn<>("Status");
-        colStatus.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus()));
-
-        emAtrasoTableView.getColumns().addAll(colIdEmprestimo, colNomeLeitor, colCpfLeitor, colNomeLivro, colDataEmprestimo, colDataPrevDevolucao, colMulta, colStatus);
-        atualizarTabela();
-
-    }
-
-    public void atualizarTabela() {
-        List<EmprestimoModel> emprestimos = emAtrasoDAO.pegarEmprestimos();
-        preencherTableViewEmprestimo(emprestimos);
-
-    }
-
-    private String getOpcaoBusca() {
-        return btOpcaoBusca.getText();
-    }
-
-    @FXML
-    protected void btBuscarEmprestimo(ActionEvent action) {
-
-        if (getOpcaoBusca() == "Por leitor") {
-            List<EmprestimoModel> emprestimos = emAtrasoDAO.buscarEmprestimoPorLeitor(txtCampoPesquisado.getText());
-            preencherTableViewEmprestimo(emprestimos);
-        } else if (getOpcaoBusca() == "Por titulo") {
-            List<EmprestimoModel> emprestimos = emAtrasoDAO.buscarEmprestimoPorLivro(txtCampoPesquisado.getText());
-            preencherTableViewEmprestimo(emprestimos);
+        if (opcaoBusca == "Por leitor") {
+            List<EmprestimoModel> emprestimos = emAtrasoDAO.buscarEmprestimoPorLeitor(campoPesquisado);
+            return emprestimos;
+        } else if (opcaoBusca == "Por titulo") {
+            List<EmprestimoModel> emprestimos = emAtrasoDAO.buscarEmprestimoPorLivro(campoPesquisado);
+            return emprestimos;
         } else {
             JOptionPane.showMessageDialog(null, "selecione uma forma de pesquisa desejado");
+            return null;
         }
 
     }
 
-    public void preencherTableViewEmprestimo(List<EmprestimoModel> emprestimos) {
-        ObservableList<EmprestimoModel> emprestimosObservableList = FXCollections.observableArrayList(emprestimos);
-        emAtrasoTableView.setItems(emprestimosObservableList);
-    }
-
-    private void handleOpcaoSelecionada(MenuItem menuItem) {
-        // Atualiza o texto do MenuButton com o texto do item selecionado
-        btOpcaoBusca.setText(menuItem.getText());
-
-    }
-
-    @FXML
-    protected void btDebitarEmprestimo(ActionEvent e) throws Exception {
-        EmprestimoModel emprestimoSelecionado = emAtrasoTableView.getSelectionModel().getSelectedItem();
-
-        emAtrasoDAO.debitarEmprestimo(emprestimoSelecionado.getIdEmprestimo());
+    public void debitarEmprestimo(int idEmprestimo) {
+        emAtrasoDAO.debitarEmprestimo(idEmprestimo);
     }
 
 }

@@ -89,7 +89,6 @@ public class NovoEmprestimoController implements IController {
         
         adicionarEmprestimo(emprestimo);
 
-        emprestimoController.atualizarTabela();
         Main.changeScreen("emprestimos");
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();

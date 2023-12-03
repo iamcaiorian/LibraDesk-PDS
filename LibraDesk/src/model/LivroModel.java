@@ -8,7 +8,7 @@ package model;
  *
  * @author gabri
  */
-public class LivroModel {
+public class LivroModel implements IModel{
     private String titulo;
     private int id;
     private String localBiblioteca;

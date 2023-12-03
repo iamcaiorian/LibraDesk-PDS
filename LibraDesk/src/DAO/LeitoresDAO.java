@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import conexaoDAO.Conexao;
 import controller.Main;
 import model.LeitorModel;
-import model.PessoaModel;
 
 public class LeitoresDAO implements IDAO{
     Conexao conSing = Conexao.getInstancy();
@@ -79,11 +78,9 @@ public class LeitoresDAO implements IDAO{
     }
 
     public void excluirLeitor(String cpfLeitor) {
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
 
         try {
-            String sql = "DELETE FROM Leitor WHERE cpf = ?";
+            String sql = "DELETE FROM Pessoa WHERE cpf = ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             preparedStatement.setString(1, cpfLeitor);
             preparedStatement.executeUpdate();
@@ -93,15 +90,13 @@ public class LeitoresDAO implements IDAO{
         }
     }
 
-    public void adicionarPessoa(PessoaModel pessoa) {
+    public void adicionarPessoa(String pnome, String sobrenome, String cpf) {
         try {
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
             String sql = "INSERT INTO Pessoa(pnome, sobrenome, cpf) VALUES (?,?,?)";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, pessoa.getPnome());
-            preparedStatement.setString(2, pessoa.getSobrenome());
-            preparedStatement.setString(3, pessoa.getCpf());
+            preparedStatement.setString(1, pnome);
+            preparedStatement.setString(2, sobrenome);
+            preparedStatement.setString(3, cpf);
 
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -110,20 +105,18 @@ public class LeitoresDAO implements IDAO{
         }
     }
 
-    public void adicionarLeitor(LeitorModel leitor) {
+    public void adicionarLeitor(String telefoneUm, String telefoneDois, String cpf, String bairro, String rua, String cidade, int numero) {
         try {
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
 
             String sql = "INSERT INTO Leitor (telefone_um, telefone_dois, cpf, bairro, rua, cidade, numero) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, leitor.getTelefoneUm());
-            preparedStatement.setString(2, leitor.getTelefoneDois());
-            preparedStatement.setString(3, leitor.getCpf());
-            preparedStatement.setString(4, leitor.getBairro());
-            preparedStatement.setString(5, leitor.getRua());
-            preparedStatement.setString(6, leitor.getCidade());
-            preparedStatement.setInt(7, leitor.getNumero());
+            preparedStatement.setString(1,telefoneUm);
+            preparedStatement.setString(2, telefoneDois);
+            preparedStatement.setString(3, cpf);
+            preparedStatement.setString(4, bairro);
+            preparedStatement.setString(5, rua);
+            preparedStatement.setString(6, cidade);
+            preparedStatement.setInt(7, numero);
 
             preparedStatement.executeUpdate();
 
@@ -133,18 +126,18 @@ public class LeitoresDAO implements IDAO{
         }
     }
 
-    public void editarLeitor(LeitorModel leitor) throws Exception {
+    public void editarLeitor(String telefoneUm, String telefoneDois, String cpf, String bairro, String rua, String cidade, int numero) throws Exception {
         try {
 
             String sql = "UPDATE Leitor SET telefone_um = ?, telefone_dois = ?, bairro = ?, rua = ?, cidade = ?, numero = ? WHERE cpf = ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, leitor.getTelefoneUm());
-            preparedStatement.setString(2, leitor.getTelefoneDois());
-            preparedStatement.setString(3, leitor.getBairro());
-            preparedStatement.setString(4, leitor.getRua());
-            preparedStatement.setString(5, leitor.getCidade());
-            preparedStatement.setInt(6, leitor.getNumero());
-            preparedStatement.setString(7, leitor.getCpf());
+            preparedStatement.setString(1, telefoneUm);
+            preparedStatement.setString(2, telefoneDois);
+            preparedStatement.setString(3, bairro);
+            preparedStatement.setString(4, rua);
+            preparedStatement.setString(5, cidade);
+            preparedStatement.setInt(6, numero);
+            preparedStatement.setString(7, cpf);
 
             preparedStatement.executeUpdate();
             Main.changeScreen("leitores");
@@ -154,15 +147,13 @@ public class LeitoresDAO implements IDAO{
         }
     }
 
-    public void editarPessoa(PessoaModel pessoa) {
+    public void editarPessoa(String pnome, String sobrenome, String cpf) {
         try {
-            Conexao conSing = Conexao.getInstancy();
-            Connection conexao = conSing.getConexao();
             String sql = "UPDATE Pessoa SET Pnome = ?, sobrenome = ? WHERE cpf = ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, pessoa.getPnome());
-            preparedStatement.setString(2, pessoa.getSobrenome());
-            preparedStatement.setString(3, pessoa.getCpf());
+            preparedStatement.setString(1, pnome);
+            preparedStatement.setString(2, sobrenome);
+            preparedStatement.setString(3, cpf);
 
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {

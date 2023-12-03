@@ -8,7 +8,7 @@ package model;
  *
  * @author gabri
  */
-public class PessoaModel {
+public class PessoaModel implements IModel{
     private String pnome;
     private String sobrenome;
     private String cpf;

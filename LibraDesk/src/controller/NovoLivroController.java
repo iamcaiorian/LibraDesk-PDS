@@ -4,20 +4,9 @@
 */
 package controller;
 
-import conexaoDAO.Conexao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import javax.swing.JOptionPane;
 
 import DAO.AcervoDAO;
-import javafx.stage.Stage;
-import javafx.scene.Node;
 
-import model.LivroModel;
 
 /**
  * FXML Controller class
@@ -30,36 +19,11 @@ public class NovoLivroController implements IController {
 
     // A conexão com o banco de dados
 
-    @FXML
-    private TextField tituloLivro;
-    @FXML
-    private TextField autorLivro;
-    @FXML
-    private TextField localizacaoLivro;
-    @FXML
-    private TextField numExemplaresLivro;
+
+    public void cadastrarLivro(String titulo, String localBiblioteca, int numeroExemplares, String autor){
+        acervoDAO.adicionarLivro(titulo, localBiblioteca, numeroExemplares, autor); 
+    }
+
     
-    @FXML
-    public void initialize(){
-    }
-
-    @FXML
-    public void BtCadastrar(ActionEvent e) throws Exception  {
-        // public LivroModel(String titulo, int id, String localBiblioteca, int
-        // numeroExemplares, String autor)
-        LivroModel livro = new LivroModel(tituloLivro.getText(), 0, localizacaoLivro.getText(),
-                Integer.parseInt(numExemplaresLivro.getText()), autorLivro.getText());
-        acervoDAO.adicionarLivro(livro);
-        Main.changeScreen("acervo");
-
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.close();
-
-    }
-
-    @FXML
-    public void btCancelar(ActionEvent e) throws Exception {
-        Main.changeScreen("acervo");
-    }
 
 }

@@ -24,6 +24,9 @@ public class LoginDAO implements IDAO{
             while (resultSet.next()) {
                 loginCoordenador = resultSet.getString("email");
                 senhaCoordenador = resultSet.getString("senha");
+                if(login.equals(loginCoordenador) && senha.equals(senhaCoordenador)){
+                    return true;
+                }
             }
 
         } catch (SQLException ex) {
@@ -31,6 +34,6 @@ public class LoginDAO implements IDAO{
             JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados" + ex.getMessage());
         }
 
-        return login.equals(loginCoordenador) && senha.equals(senhaCoordenador);
+        return false;
     }   
 }

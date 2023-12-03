@@ -81,16 +81,16 @@ public class AcervoDAO implements IDAO{
 
     }
 
-    public void adicionarLivro(LivroModel livro) {
+    public void adicionarLivro(String titulo, String localBiblioteca, int numeroExemplares, String autor) {
         
         try {    
             
             String sql = "INSERT INTO Livro (titulo, local_biblioteca, num_exemplares, autor) VALUES (?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, livro.getTitulo());
-            preparedStatement.setString(2, livro.getLocalBiblioteca());
-            preparedStatement.setInt(3, livro.getNumeroExemplares());
-            preparedStatement.setString(4, livro.getAutor());
+            preparedStatement.setString(1, titulo);
+            preparedStatement.setString(2, localBiblioteca);
+            preparedStatement.setInt(3, numeroExemplares);
+            preparedStatement.setString(4, autor);
             
             preparedStatement.executeUpdate();
             
@@ -100,16 +100,16 @@ public class AcervoDAO implements IDAO{
         }
     }
 
-    public void EditarLivro(LivroModel livro){
+    public void EditarLivro(String titulo, String localBiblioteca, int numeroExemplares, String autor, int idLivro) {
            
         try{
             String sql = "UPDATE Livro SET titulo = ?, local_biblioteca = ?, num_exemplares = ?, autor = ? WHERE id = ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
-            preparedStatement.setString(1, livro.getTitulo());
-            preparedStatement.setString(2, livro.getLocalBiblioteca());
-            preparedStatement.setInt(3, livro.getNumeroExemplares());
-            preparedStatement.setString(4, livro.getAutor());    
-            preparedStatement.setInt(5, livro.getId());
+            preparedStatement.setString(1, titulo);
+            preparedStatement.setString(2, localBiblioteca);
+            preparedStatement.setInt(3, numeroExemplares);
+            preparedStatement.setString(4, autor);    
+            preparedStatement.setInt(5, idLivro);
             
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {

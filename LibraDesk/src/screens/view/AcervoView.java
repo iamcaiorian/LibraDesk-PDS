@@ -42,7 +42,6 @@ public class AcervoView {
     
     InvokerPopUpCommand invoker = new InvokerPopUpCommand();
     
-    public static LivroModel livroSelecionado;
     AcervoController acervoController = new AcervoController();
     
     @FXML
@@ -54,7 +53,6 @@ public class AcervoView {
 
     @FXML
     protected void btNovoLivro(ActionEvent e) throws Exception {
-
         Main.changeScreen("novoLivro");
     }
     
@@ -89,7 +87,8 @@ public class AcervoView {
     @FXML
     public void initialize() {
         invoker.register("editarLivro", new EditarLivroCommand()); 
-
+        invoker.register("excluirLivro", new ExcluirLivroCommand());
+        
         TableColumn<LivroModel, String> colTitulo = new TableColumn("Titulo");
         colTitulo.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTitulo()));
 
@@ -129,9 +128,15 @@ public class AcervoView {
     }
     
     @FXML
-    public void btExcluirLivro(ActionEvent e) {
+    public void btExcluirLivro(ActionEvent e) throws Exception {
         LivroModel livroSelecionado = livrosTableView.getSelectionModel().getSelectedItem();
-        openExcluirPopup(livroSelecionado.getId());
+
+        if (livroSelecionado == null) {
+            return;
+        }
+
+        invoker.invoke("excluirLivro", livroSelecionado);
+        Main.changeScreen("acervo");
     }
     
     @FXML
@@ -142,8 +147,7 @@ public class AcervoView {
             return;
         }
 
-        invoker.invoke("editarLivro", livroSelecionado);        
-        Main.changeScreen("editarLivro");
+        invoker.invoke("editarLivro", livroSelecionado);
     }
 
     // private void openEditarLivro(LivroModel livro) {
@@ -173,6 +177,7 @@ public class AcervoView {
     //     }
     // }
 
+       /*
     private void openExcluirPopup(int id) {
         try {
             // Carregando o arquivo FXML da tela NovoLivro
@@ -194,6 +199,6 @@ public class AcervoView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }
