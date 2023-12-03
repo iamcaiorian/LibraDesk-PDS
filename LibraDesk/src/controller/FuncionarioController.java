@@ -37,13 +37,9 @@ import java.sql.ResultSet;
 public class FuncionarioController implements IController {
 
     FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-    
 
     public List<BibliotecariaModel> getFuncionarios(){
         return funcionarioDAO.getFuncionarios();
     }
-
-    
-
     
 }

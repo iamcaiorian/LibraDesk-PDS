@@ -56,7 +56,7 @@ public class CadastrarUsuarioController implements IController {
 
     @FXML
     protected void btCadastrar(ActionEvent e){
-        openConfirmarPopup();
+        Main.changeScreen("confirmarPopUp");
     }
     
     
@@ -117,25 +117,25 @@ public class CadastrarUsuarioController implements IController {
     }
     
 
-    private void openConfirmarPopup() {
-        try {
-            // Carregando o arquivo FXML da tela NovoLivro
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ConfirmarCadastro.fxml"));
-            Parent root = loader.load();
+    // private void openConfirmarPopup() {
+    //     try {
+    //         // Carregando o arquivo FXML da tela NovoLivro
+    //         FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ConfirmarCadastro.fxml"));
+    //         Parent root = loader.load();
 
-            ConfirmarCadastroController controller = loader.getController();
-            controller.setCadastrarUsuarioController(this);
-            // Criando um novo palco (Stage) para a tela NovoLivro
-            Stage confirmarStage = new Stage();
-            confirmarStage.setTitle("Confirmar Cadastro");
-            confirmarStage.initStyle(StageStyle.UTILITY);
-            confirmarStage.initModality(Modality.APPLICATION_MODAL);
-            confirmarStage.setScene(new Scene(root, 480, 360));
+    //         ConfirmarCadastroController controller = loader.getController();
+    //         controller.setCadastrarUsuarioController(this);
+    //         // Criando um novo palco (Stage) para a tela NovoLivro
+    //         Stage confirmarStage = new Stage();
+    //         confirmarStage.setTitle("Confirmar Cadastro");
+    //         confirmarStage.initStyle(StageStyle.UTILITY);
+    //         confirmarStage.initModality(Modality.APPLICATION_MODAL);
+    //         confirmarStage.setScene(new Scene(root, 480, 360));
 
-            // Exibindo o palco
-            confirmarStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //         // Exibindo o palco
+    //         confirmarStage.showAndWait();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 }

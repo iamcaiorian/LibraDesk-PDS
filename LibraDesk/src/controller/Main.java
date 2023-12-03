@@ -40,7 +40,7 @@ public class Main extends Application{
         invoker.register("novoLivro", new NovoLivroCommand());
         invoker.register("novoLeitor", new NovoLeitorCommand());
         invoker.register("novoEmprestimo", new NovoEmprestimoCommand());
-
+        invoker.register("confirmarPopUp", new ConfirmarPopUpCommand());
         invoker.invoke("login");
         primaryStage.show();
     }
