@@ -39,17 +39,12 @@ public class FuncionariosView {
 
      @FXML
     protected void btExcluir(ActionEvent e) throws Exception {
-        openExcluirPopup();
+        Main.changeScreen("confirmarPopUp");
     }
     
     @FXML
     protected void btPerfil(ActionEvent e)throws Exception {
         Main.changeScreen("perfil");
-    }
-    
-    @FXML
-    protected void btConfirmarEdicao(ActionEvent e)throws Exception {
-        openEditarPopup();
     }
     
     @FXML
@@ -76,25 +71,25 @@ public class FuncionariosView {
         TableViewFuncionario.setItems(observableListBibliotecaria);
     }
 
-    private static void openExcluirPopup() {
-        try {
-            // Carregando o arquivo FXML da tela NovoLivro
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ConfirmarExcluir.fxml"));
-            Parent root = loader.load();
+    // private static void openExcluirPopup() {
+    //     try {
+    //         // Carregando o arquivo FXML da tela NovoLivro
+    //         FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ConfirmarExcluir.fxml"));
+    //         Parent root = loader.load();
 
-            // Criando um novo palco (Stage) para a tela NovoLivro
-            Stage excluirStage = new Stage();
-            excluirStage.setTitle("Confrimar Exclusão");
-            excluirStage.initStyle(StageStyle.UTILITY);
-            excluirStage.initModality(Modality.APPLICATION_MODAL);
-            excluirStage.setScene(new Scene(root, 530, 200));
+    //         // Criando um novo palco (Stage) para a tela NovoLivro
+    //         Stage excluirStage = new Stage();
+    //         excluirStage.setTitle("Confrimar Exclusão");
+    //         excluirStage.initStyle(StageStyle.UTILITY);
+    //         excluirStage.initModality(Modality.APPLICATION_MODAL);
+    //         excluirStage.setScene(new Scene(root, 530, 200));
 
-            // Exibindo o palco
-            excluirStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //         // Exibindo o palco
+    //         excluirStage.showAndWait();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
 
      
