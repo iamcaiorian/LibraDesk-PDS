@@ -117,12 +117,12 @@ public class EmprestimoDAO implements IDAO{
                 long diferencaEmDias = calcularDiferencaDias(dataPrevDevolucaoLocalDate, dataAtual);
 
                 double multa = 0;
-                if(diferencaEmDias <= 30) {
-                    MultaPadrao multaPadrao = new MultaPadrao();
-                    multa = multaPadrao.calcularMulta(diferencaEmDias);
-                } else {
+                if(diferencaEmDias > 30) {
                     MultaEspecial multaEspecial = new MultaEspecial();
                     multa = multaEspecial.calcularMulta(diferencaEmDias);
+                } else if(diferencaEmDias > 0) {
+                    MultaPadrao multaPadrao = new MultaPadrao();
+                    multa = multaPadrao.calcularMulta(diferencaEmDias);
                 }
 
                 String sql2 = "UPDATE emprestimo SET multa = ? WHERE id_emprestimo = ?";
