@@ -49,7 +49,7 @@ public class FuncionariosView {
     
     @FXML
     protected void btConfirmarEdicao(ActionEvent e)throws Exception {
-        openEditarPopup();
+        //openEditarPopup();
     }
     
     @FXML

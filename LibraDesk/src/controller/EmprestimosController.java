@@ -66,7 +66,8 @@ public class EmprestimosController implements IController {
 
     public List<EmprestimoModel> buscarEmprestimo(String opcaoBusca, String campoPesquisado) {
 
-        if (opcaoBusca == "Por leitor") {
+        if (opcaoBusca.equals("Por leitor")) {
+            System.out.println("controller");
             List<EmprestimoModel> emprestimos = emprestimoDAO.buscarEmprestimoPorLeitor(campoPesquisado);
             return emprestimos;
         } else if (opcaoBusca == "Por titulo") {

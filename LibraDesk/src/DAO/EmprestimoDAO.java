@@ -24,6 +24,8 @@ public class EmprestimoDAO implements IDAO{
 
 
     public List<EmprestimoModel> buscarEmprestimoPorLeitor(String nomeLeitor){
+
+        System.out.println("dao");
         
         List<EmprestimoModel> listaEmprestimo = new ArrayList<>();
         
@@ -205,5 +207,66 @@ public class EmprestimoDAO implements IDAO{
             excecaoLeitor.printStackTrace();
             JOptionPane.showMessageDialog(null, "Deu errado 5 " + excecaoLeitor.getMessage());
         }
+    }
+
+    int idLivro;
+
+    public void adicionarEmprestimo(Date dataEmprestimo, Date dataPrevDevolucao, Date dataRealDevolucao, double multa, String cpfLeitor, String nomeLivro, int idLivro){
+        
+        try{
+            Conexao conSing = Conexao.getInstancy();
+            Connection conexao = conSing.getConexao();
+            
+            idLivro = pegarIdLivro(nomeLivro);
+            String sql = "INSERT INTO emprestimo (data_emprestimo, data_prev_dev, data_real_dev, multa, cpf_leitor, id_livro, status) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            
+            PreparedStatement preparedStatement = conexao.prepareStatement(sql);        
+            preparedStatement.setDate(1, new java.sql.Date(dataEmprestimo.getTime()));
+            preparedStatement.setDate(2, new java.sql.Date(dataPrevDevolucao.getTime()));
+            preparedStatement.setDate(3, new java.sql.Date(dataRealDevolucao.getTime()));
+            preparedStatement.setDouble(4, multa);
+            preparedStatement.setString(5, cpfLeitor);
+            preparedStatement.setInt(6, idLivro);
+            preparedStatement.setBoolean(7, true);
+            
+            
+            preparedStatement.executeUpdate();
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Deu errado: " + ex.getMessage());
+        }
+        
+    }
+
+    public int pegarIdLivro(String nomeLivro){
+        int idLivro = -1;
+        
+        try{
+            Conexao conSing = Conexao.getInstancy();
+            Connection conexao = conSing.getConexao();
+            
+            String sql = "SELECT id FROM livro WHERE titulo = ?";
+            
+            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+            preparedStatement.setString(1, nomeLivro);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                idLivro = resultSet.getInt("id");
+                // Agora, 'idLivro' contém o valor do id do primeiro livro encontrado com o título fornecido.
+            } else {
+                // Caso não haja resultados para o título fornecido.
+                JOptionPane.showMessageDialog(null, "Livro nao existe");
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Deu errado: " + ex.getMessage());
+        }
+        
+        return idLivro;
+        
     }
 }
