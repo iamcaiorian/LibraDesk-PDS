@@ -52,8 +52,8 @@ public class EmprestimosView {
     }
 
     @FXML
-    protected void btPerfil(ActionEvent e) throws Exception {
-        Main.changeScreen("perfil");
+    protected void btSair(ActionEvent e) throws Exception {
+        Main.changeScreen("login");
     }
 
     @FXML
@@ -65,30 +65,7 @@ public class EmprestimosView {
     @FXML
     private TextField txtCampoPesquisado;
 
-    // private void openNovoEmprestimoPopup() {
-    //     try {
-    //         // Carregando o arquivo FXML da tela NovoLivro
-    //         FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/NovoEmprestimo.fxml"));
-    //         Parent root = loader.load();
-
-    //         // Obtendo o controller da tela NovoLivro
-    //         NovoEmprestimoController controller = loader.getController();
-    //         controller.setEmprestimoController(this);
-
-    //         // Criando um novo palco (Stage) para a tela NovoLivro
-    //         Stage novoEmprestimoStage = new Stage();
-    //         novoEmprestimoStage.setTitle("Novo Livro");
-    //         novoEmprestimoStage.initStyle(StageStyle.UTILITY);
-    //         novoEmprestimoStage.initModality(Modality.APPLICATION_MODAL);
-    //         novoEmprestimoStage.setScene(new Scene(root, 992, 614));
-
-    //         // Exibindo o palco
-    //         novoEmprestimoStage.showAndWait();
-    //     } catch (Exception e) {
-    //         // Tratamento de exceção (substitua por um tratamento adequado)
-    //         e.printStackTrace();
-    //     }
-    // }
+    
 
     
     @FXML
@@ -150,6 +127,7 @@ public class EmprestimosView {
 
     @FXML
     protected void btBuscarEmprestimo(ActionEvent e) {
+        System.out.println("bt");
         List<EmprestimoModel> emprestimos = emprestimoController.buscarEmprestimo( getOpcaoBusca(), txtCampoPesquisado.getText());
         if(emprestimos != null) preencherTableViewEmprestimo(emprestimos);
     }

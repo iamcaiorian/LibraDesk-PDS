@@ -82,23 +82,22 @@ public class AcervoDAO implements IDAO{
     }
 
     public void adicionarLivro(String titulo, String localBiblioteca, int numeroExemplares, String autor) {
-        
         try {    
-            
-            String sql = "INSERT INTO Livro (titulo, local_biblioteca, num_exemplares, autor) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO Livro (titulo, local_biblioteca, num_exemplares, exemplares_disponiveis, autor) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             preparedStatement.setString(1, titulo);
             preparedStatement.setString(2, localBiblioteca);
             preparedStatement.setInt(3, numeroExemplares);
-            preparedStatement.setString(4, autor);
+            preparedStatement.setInt(4, numeroExemplares); 
+            preparedStatement.setString(5, autor);
             
             preparedStatement.executeUpdate();
-            
         } catch (SQLException e) {       
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Deu errado: " + e.getMessage());
         }
     }
+    
 
     public void EditarLivro(String titulo, String localBiblioteca, int numeroExemplares, String autor, int idLivro) {
            

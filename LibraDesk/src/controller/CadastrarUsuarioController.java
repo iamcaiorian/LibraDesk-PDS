@@ -4,13 +4,13 @@
  */
 package controller;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import DAO.FuncionarioDAO;
 import conexaoDAO.Conexao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.PessoaModel;
 import model.BibliotecariaModel;
+import screens.view.NovoFuncionarioView;
 
 /**
  * FXML Controller class
@@ -31,7 +32,19 @@ import model.BibliotecariaModel;
  * @author CAIO
  */
 public class CadastrarUsuarioController implements IController {
+
+    FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+    public void CadastrarUsuario(String primeiroNome, String sobrenome, String cpf, String email, String senha,
+            boolean coordenador) {
+
+        funcionarioDAO.cadastrarPessoa(primeiroNome, sobrenome, cpf);
+        funcionarioDAO.CadastrarBibliotecaria(email, senha, cpf, coordenador);
+
+    }
+
     
+<<<<<<< HEAD
     @FXML
     private TextField txtNomeUsuario;
 
@@ -138,4 +151,6 @@ public class CadastrarUsuarioController implements IController {
     //         e.printStackTrace();
     //     }
     // }
+=======
+>>>>>>> 1345a14cfa6ece47d1421395557146f4a1d0b3e8
 }

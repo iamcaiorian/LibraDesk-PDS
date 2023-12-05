@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 
 import conexaoDAO.Conexao;
 import model.BibliotecariaModel;
-import model.PessoaModel;
 
 public class FuncionarioDAO implements IDAO{
 
@@ -19,8 +18,6 @@ public class FuncionarioDAO implements IDAO{
     Connection conexao = conSing.getConexao();
 
     public List<BibliotecariaModel> getFuncionarios(){
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
         List<BibliotecariaModel> listaBibliotecaria = new ArrayList<>();
 
         try{
@@ -50,14 +47,14 @@ public class FuncionarioDAO implements IDAO{
         return listaBibliotecaria;
     }
 
-    public void cadastrarPessoa(PessoaModel pessoa){
+    public void cadastrarPessoa(String primeiroNome, String sobrenome, String cpf){
 
         try{
             String sql = "INSERT INTO pessoa(pnome, sobrenome, cpf) VALUES(?,?,?)";
             PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, pessoa.getPnome());
-            stmt.setString(2, pessoa.getSobrenome());
-            stmt.setString(3, pessoa.getCpf());
+            stmt.setString(1, primeiroNome);
+            stmt.setString(2, sobrenome);
+            stmt.setString(3, cpf);
 
             stmt.executeUpdate();
             
@@ -69,14 +66,14 @@ public class FuncionarioDAO implements IDAO{
 
     }
 
-    public void ExcluirFuncionario(String cpf){
-
+    public void excluirFuncionario(String cpf){
+        
         try{
-            String sql = "DELETE FROM pessoa WHERE cpf = ?";
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, cpf);
-
-            stmt.executeUpdate();
+            String sql = "DELETE FROM Pessoa WHERE cpf = ?";
+            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+            preparedStatement.setString(1, cpf);
+            System.out.println("Entrou no excluir dao: " + sql);
+            preparedStatement.executeUpdate();
             
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -84,17 +81,15 @@ public class FuncionarioDAO implements IDAO{
         }
     }
 
-    public void CadastrarBibliotecaria(BibliotecariaModel bibliotecaria){
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
-
+    public void CadastrarBibliotecaria(String email, String senha, String cpf, boolean coordenador){
+    
         try{
             String sql = "INSERT INTO bibliotecaria(email, senha, coordenador, cpf) VALUES(?,?,?,?)";
             PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, bibliotecaria.getEmail());
-            stmt.setString(2, bibliotecaria.getSenha());
-            stmt.setBoolean(3, false);
-            stmt.setString(4, bibliotecaria.getCpf());
+            stmt.setString(1, email);
+            stmt.setString(2,senha);
+            stmt.setBoolean(3, coordenador);
+            stmt.setString(4, cpf);
 
             stmt.executeUpdate();
             

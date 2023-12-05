@@ -10,9 +10,10 @@ import javax.swing.JOptionPane;
 import conexaoDAO.Conexao;
 
 public class LoginDAO implements IDAO{
+    Conexao conSing = Conexao.getInstancy();
+    Connection conexao = conSing.getConexao();
+    
     public boolean validarCampos(String login, String senha) {
-        Conexao conSing = Conexao.getInstancy();
-        Connection conexao = conSing.getConexao();
         String loginCoordenador = "";
         String senhaCoordenador = "";
 
@@ -36,4 +37,24 @@ public class LoginDAO implements IDAO{
 
         return false;
     }   
+
+    public boolean verificaLogin(String login, String senha){
+
+        try {     
+            String sql = "SELECT * FROM bibliotecaria";
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                if(rs.getString("email").equals(login) && rs.getString("senha").equals(senha)){
+                    return true;
+                }
+            }
+            
+        } catch (SQLException e) {       
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Deu errado: " + e.getMessage());
+        }
+
+        return false;
+    }
 }

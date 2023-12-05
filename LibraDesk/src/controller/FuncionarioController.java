@@ -41,5 +41,14 @@ public class FuncionarioController implements IController {
     public List<BibliotecariaModel> getFuncionarios(){
         return funcionarioDAO.getFuncionarios();
     }
+<<<<<<< HEAD
+=======
+
+    public void excluirFuncionario(String cpf){
+        System.out.println("Entrou no excluir controller");
+        funcionarioDAO.excluirFuncionario(cpf);
+    }
+
+>>>>>>> 1345a14cfa6ece47d1421395557146f4a1d0b3e8
     
 }

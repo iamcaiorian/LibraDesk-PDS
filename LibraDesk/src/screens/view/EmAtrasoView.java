@@ -39,8 +39,8 @@ public class EmAtrasoView {
     }
 
     @FXML
-    protected void btPerfil(ActionEvent e) throws Exception {
-        Main.changeScreen("perfil");
+    protected void btSair(ActionEvent e) throws Exception {
+        Main.changeScreen("login");
     }
 
     @FXML

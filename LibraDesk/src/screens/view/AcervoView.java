@@ -77,8 +77,8 @@ public class AcervoView {
     }
     
     @FXML
-    protected void btPerfil(ActionEvent e) throws Exception {
-        Main.changeScreen("perfil");
+    protected void btSair(ActionEvent e) throws Exception {
+        Main.changeScreen("login");
     }
     
     @FXML
@@ -149,56 +149,5 @@ public class AcervoView {
 
         invoker.invoke("editarLivro", livroSelecionado);
     }
-
-    // private void openEditarLivro(LivroModel livro) {
-    //     try {
-    //         // Carregando o arquivo FXML da tela de edição
-    //         FXMLLoader loader = new FXMLLoader(Main.class.getResource("../fxml/EditarLivro.fxml"));
-    //         Parent root = loader.load();
-
-    //         // Obtendo o controlador da tela de edição
-    //         EditarLivroController controller = loader.getController();
-
-    //         // Passando o LeitorModel selecionado para o controlador
-    //         controller.preencherCampos(livro);
-
-    //         // Criando um novo palco (Stage) para a tela de edição
-    //         Stage edicaoLeitorStage = new Stage();
-    //         edicaoLeitorStage.setTitle("Editar Livro");
-    //         edicaoLeitorStage.initStyle(StageStyle.UTILITY);
-    //         edicaoLeitorStage.initModality(Modality.APPLICATION_MODAL);
-    //         edicaoLeitorStage.setScene(new Scene(root, 992, 614));
-
-    //         // Exibindo o palco
-    //         edicaoLeitorStage.showAndWait();
-    //     } catch (Exception ex) {
-    //         // Tratamento de exceção (substitua por um tratamento adequado)
-    //         ex.printStackTrace();
-    //     }
-    // }
-
-       /*
-    private void openExcluirPopup(int id) {
-        try {
-            // Carregando o arquivo FXML da tela NovoLivro
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../fxml/ConfirmarExcluir.fxml"));
-            Parent root = loader.load();
-
-            ConfirmarExcluirLivroView confirmarExcluirLivroView = loader.getController();
-            confirmarExcluirLivroView.setAcervoController(acervoController);
-            confirmarExcluirLivroView.setIdLivro(id);
-            // Criando um novo palco (Stage) para a tela NovoLivro
-            Stage excluirStage = new Stage();
-            excluirStage.setTitle("Confrimar Exclusão");
-            excluirStage.initStyle(StageStyle.UTILITY);
-            excluirStage.initModality(Modality.APPLICATION_MODAL);
-            excluirStage.setScene(new Scene(root, 530, 200));
-
-            // Exibindo o palco
-            excluirStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
 
 }
