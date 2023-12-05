@@ -40,7 +40,7 @@ public class NovoLeitorView {
         String nomeCompleto = nomeLeitor.getText();
         String[] partesNome = nomeCompleto.split(" ", 2);
         String primeiroNome = partesNome[0];
-        String sobrenome = (partesNome.length > 1) ? partesNome[1] : "";
+        String sobrenome = (partesNome.length > 1) ? partesNome[1] : null;
 
         novoLeitorController.adicionarPessoa(primeiroNome, sobrenome, cpfLeitor.getText());
         novoLeitorController.adicionarLeitor(

@@ -35,7 +35,9 @@ public class PessoaModel implements IModel{
 
 
     public String getNomeCompleto() {
-        return pnome + " " + sobrenome;
+        if(sobrenome != null) return pnome + " " + sobrenome;
+        
+        return pnome;
     }
 
     // Métodos Setter

@@ -36,7 +36,7 @@ public class NovoEmprestimoView {
 
         novoEmprestimoController.adicionarEmprestimo(
          parseDate(dataEmprestimo.getText()), parseDate(dataDevolucao.getText()),
-          parseDate(dataDevolucao.getText()), 0, cpfLeitorEmprestimo.getText(), livroEmprestimo.getText(), 0);
+           0, cpfLeitorEmprestimo.getText(), livroEmprestimo.getText(), 0);
         
 
         Main.changeScreen("emprestimos");

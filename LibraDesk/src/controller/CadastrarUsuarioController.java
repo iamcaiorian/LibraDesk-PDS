@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.PessoaModel;
 import model.BibliotecariaModel;
+import screens.view.NovoFuncionarioView;
 
 /**
  * FXML Controller class
@@ -38,29 +39,9 @@ public class CadastrarUsuarioController implements IController {
             boolean coordenador) {
 
         funcionarioDAO.cadastrarPessoa(primeiroNome, sobrenome, cpf);
-        funcionarioDAO.CadastrarBibliotecaria(email, senha, cpf);
+        funcionarioDAO.CadastrarBibliotecaria(email, senha, cpf, coordenador);
 
     }
 
-    private void openConfirmarPopup() {
-        try {
-            // Carregando o arquivo FXML da tela NovoLivro
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ConfirmarCadastro.fxml"));
-            Parent root = loader.load();
-
-            ConfirmarCadastroController controller = loader.getController();
-            controller.setCadastrarUsuarioController(this);
-            // Criando um novo palco (Stage) para a tela NovoLivro
-            Stage confirmarStage = new Stage();
-            confirmarStage.setTitle("Confirmar Cadastro");
-            confirmarStage.initStyle(StageStyle.UTILITY);
-            confirmarStage.initModality(Modality.APPLICATION_MODAL);
-            confirmarStage.setScene(new Scene(root, 480, 360));
-
-            // Exibindo o palco
-            confirmarStage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    
 }

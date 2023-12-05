@@ -37,7 +37,7 @@ public class EditarLeitorView {
         String nomeCompleto = nomeLeitor.getText();
         String[] partesNome = nomeCompleto.split(" ", 2);
         String primeiroNome = partesNome[0];
-        String sobrenome = (partesNome.length > 1) ? partesNome[1] : "";
+        String sobrenome = (partesNome.length > 1) ? partesNome[1] : null;
         
         editarLeitorController.editarPessoa(primeiroNome, sobrenome, cpfLeitor.getText());
         editarLeitorController.editarLeitor(telefone1Leitor.getText(), telefone2Leitor.getText(), cpfLeitor.getText(), bairroLeitor.getText(), ruaLeitor.getText(), cidadeLeitor.getText(), Integer.parseInt(numeroLeitor.getText()));

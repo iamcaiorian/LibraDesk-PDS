@@ -66,14 +66,14 @@ public class FuncionarioDAO implements IDAO{
 
     }
 
-    public void ExcluirFuncionario(String cpf){
-
+    public void excluirFuncionario(String cpf){
+        
         try{
-            String sql = "DELETE FROM pessoa WHERE cpf = ?";
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, cpf);
-
-            stmt.executeUpdate();
+            String sql = "DELETE FROM Pessoa WHERE cpf = ?";
+            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+            preparedStatement.setString(1, cpf);
+            System.out.println("Entrou no excluir dao: " + sql);
+            preparedStatement.executeUpdate();
             
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -81,14 +81,14 @@ public class FuncionarioDAO implements IDAO{
         }
     }
 
-    public void CadastrarBibliotecaria(String email, String senha, String cpf){
+    public void CadastrarBibliotecaria(String email, String senha, String cpf, boolean coordenador){
     
         try{
             String sql = "INSERT INTO bibliotecaria(email, senha, coordenador, cpf) VALUES(?,?,?,?)";
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setString(2,senha);
-            stmt.setBoolean(3, false);
+            stmt.setBoolean(3, coordenador);
             stmt.setString(4, cpf);
 
             stmt.executeUpdate();

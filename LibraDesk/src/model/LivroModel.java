@@ -13,6 +13,7 @@ public class LivroModel implements IModel{
     private int id;
     private String localBiblioteca;
     private int numeroExemplares;
+    private int numeroExemplaresDisponiveis;
     private String autor;
 
     // Construtor
@@ -21,12 +22,14 @@ public class LivroModel implements IModel{
         this.id = id;
         this.localBiblioteca = localBiblioteca;
         this.numeroExemplares = numeroExemplares;
+        numeroExemplaresDisponiveis = numeroExemplares;
         this.autor = autor;
     }
 
     public LivroModel() {
 
     }
+
 
     // Métodos Get
     public String getTitulo() {
@@ -49,6 +52,10 @@ public class LivroModel implements IModel{
         return numeroExemplares;
     }
 
+    public int getNumeroExemplaresDisponiveis() {
+        return numeroExemplaresDisponiveis;
+    }
+
     // Métodos Set
     public void setTitulo(String titulo) {
         this.titulo = titulo;
@@ -64,6 +71,10 @@ public class LivroModel implements IModel{
 
     public void setNumeroExemplares(int numeroExemplares) {
         this.numeroExemplares = numeroExemplares;
+    }
+
+    public void setNumeroExemplaresDisponiveis(int numeroExemplaresDisponiveis) {
+        this.numeroExemplaresDisponiveis = numeroExemplaresDisponiveis;
     }
 
     public void setAutor(String autor) {

@@ -43,7 +43,10 @@ public class FuncionarioController implements IController {
         return funcionarioDAO.getFuncionarios();
     }
 
-    
+    public void excluirFuncionario(String cpf){
+        System.out.println("Entrou no excluir controller");
+        funcionarioDAO.excluirFuncionario(cpf);
+    }
 
     
 }

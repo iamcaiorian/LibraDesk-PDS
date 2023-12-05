@@ -41,9 +41,9 @@ public class NovoEmprestimoController implements IController {
 
     EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
 
-    public void adicionarEmprestimo(Date dataEmprestimo, Date dataPrevDevolucao, Date dataRealDevolucao,
+    public void adicionarEmprestimo(Date dataEmprestimo, Date dataPrevDevolucao,
             double multa, String cpfLeitor, String nomeLivro, int idLivro) throws Exception {
-        emprestimoDAO.adicionarEmprestimo(dataEmprestimo, dataPrevDevolucao, dataRealDevolucao, multa, cpfLeitor,
+        emprestimoDAO.adicionarEmprestimo(dataEmprestimo, dataPrevDevolucao,  multa, cpfLeitor,
                 nomeLivro, idLivro);
     }
 

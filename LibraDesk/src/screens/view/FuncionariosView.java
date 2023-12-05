@@ -2,6 +2,7 @@ package screens.view;
 
 import java.util.List;
 
+import controller.ConfirmarCadastroController;
 import controller.FuncionarioController;
 import controller.Main;
 import model.BibliotecariaModel;
@@ -47,10 +48,7 @@ public class FuncionariosView {
         Main.changeScreen("perfil");
     }
     
-    @FXML
-    protected void btConfirmarEdicao(ActionEvent e)throws Exception {
-        //openEditarPopup();
-    }
+    
     
     @FXML
     public void initialize(){
@@ -60,7 +58,10 @@ public class FuncionariosView {
         TableColumn<BibliotecariaModel, String> colCargo = new TableColumn<>("Cargo");
         colCargo.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().cargoCoordenador()));
 
-        TableViewFuncionario.getColumns().addAll(colNome, colCargo);
+        TableColumn<BibliotecariaModel, String> colCpf = new TableColumn<>("CPF");
+        colCpf.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCpf()));
+
+        TableViewFuncionario.getColumns().addAll(colNome, colCargo, colCpf);
         atualizarTabela();
     }
 
@@ -69,31 +70,41 @@ public class FuncionariosView {
         preencherTableView(listaBibliotecaria);
     }
 
-    
+    public void excluirFuncionario() throws Exception{
+        System.out.println("Entrou no excluir na view");
+        BibliotecariaModel bibliotecaria = TableViewFuncionario.getSelectionModel().getSelectedItem();
+        funcionarioController.excluirFuncionario(bibliotecaria.getCpf());
+        atualizarTabela();
+        Main.changeScreen("funcionarios");
+    }
 
     public void preencherTableView(List<BibliotecariaModel> listaBibliotecaria){       
         ObservableList<BibliotecariaModel> observableListBibliotecaria = FXCollections.observableArrayList(listaBibliotecaria);
         TableViewFuncionario.setItems(observableListBibliotecaria);
     }
 
-    private static void openExcluirPopup() {
+    private void openExcluirPopup() {
         try {
-            // Carregando o arquivo FXML da tela NovoLivro
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("../view/ConfirmarExcluir.fxml"));
-            Parent root = loader.load();
+            // Carregando o arquivo FXML da tela ConfirmarCadastro
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/ConfirmarCadastro.fxml"));
+            Parent xmlConfirmarCadastro = loader.load();
 
-            // Criando um novo palco (Stage) para a tela NovoLivro
-            Stage excluirStage = new Stage();
-            excluirStage.setTitle("Confrimar Exclusão");
-            excluirStage.initStyle(StageStyle.UTILITY);
-            excluirStage.initModality(Modality.APPLICATION_MODAL);
-            excluirStage.setScene(new Scene(root, 530, 200));
+            ConfirmarCadastroController controller = loader.getController();
+            controller.setFuncionariosView(this, "excluirFuncionarioView");
+
+            // Criando um novo palco (Stage) para a tela ConfirmarCadastro
+            Stage confirmarStage = new Stage();
+            confirmarStage.setTitle("Confirmar Cadastro");
+            confirmarStage.initStyle(StageStyle.UTILITY);
+            confirmarStage.initModality(Modality.APPLICATION_MODAL);
+            confirmarStage.setScene(new Scene(xmlConfirmarCadastro, 480, 360));
 
             // Exibindo o palco
-            excluirStage.showAndWait();
+            confirmarStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    
     }
 
 
