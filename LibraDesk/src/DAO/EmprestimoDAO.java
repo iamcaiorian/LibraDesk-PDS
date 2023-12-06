@@ -37,8 +37,14 @@ public class EmprestimoDAO implements IDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                String nomeCompleto;
+                if(resultSet.getString("sobrenome") != null){
+                            nomeCompleto = resultSet.getString("pnome") + " " + resultSet.getString("sobrenome");
+                }else{
+                    nomeCompleto = resultSet.getString("pnome");
+                }
                 EmprestimoModel emprestimo = new EmprestimoModel(
-                        resultSet.getString("pnome") + " " + resultSet.getString("sobrenome"),
+                        nomeCompleto,
                         resultSet.getDate("data_emprestimo"),
                         resultSet.getDate("data_prev_dev"),
                         resultSet.getDate("data_real_dev"),
@@ -72,8 +78,15 @@ public class EmprestimoDAO implements IDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                String nomeCompleto;
+                if(resultSet.getString("sobrenome") != null){
+                            nomeCompleto = resultSet.getString("pnome") + " " + resultSet.getString("sobrenome");
+                }else{
+                    nomeCompleto = resultSet.getString("pnome");
+                }
+                
                 EmprestimoModel emprestimo = new EmprestimoModel(
-                        resultSet.getString("pnome") + " " + resultSet.getString("sobrenome"),
+                        nomeCompleto,
                         resultSet.getDate("data_emprestimo"),
                         resultSet.getDate("data_prev_dev"),
                         resultSet.getDate("data_real_dev"),
@@ -144,14 +157,19 @@ public class EmprestimoDAO implements IDAO {
 
         try {
 
-            String sql = "SELECT * FROM emprestimo e JOIN pessoa p ON e.cpf_leitor = p.cpf JOIN livro l ON l.id = e.id_livro WHERE e.status = true";
+            String sql = "SELECT * FROM vw_emprestimos_ativos_detalhados";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-
+                String nomeCompleto;
+                if(resultSet.getString("sobrenome") != null){
+                            nomeCompleto = resultSet.getString("pnome") + " " + resultSet.getString("sobrenome");
+                }else{
+                    nomeCompleto = resultSet.getString("pnome");
+                }
                 EmprestimoModel emprestimo = new EmprestimoModel(
-                        resultSet.getString("pnome") + " " + resultSet.getString("sobrenome"),
+                        nomeCompleto,   
                         resultSet.getDate("data_emprestimo"),
                         resultSet.getDate("data_prev_dev"),
                         resultSet.getDate("data_real_dev"),
